@@ -2,15 +2,17 @@
 
 Status: merged as a draft in PR #1 (2026-11-11), then red-teamed with Fable the same day (table at
 the end; every finding folded in). Still to come: the owner's answers to the open questions and
-an outside review by Gemini, both folded into this file. Builds wait for this app's turn in the
+an outside review by Gemini, both folded into this file. On 2026-11-13 the owner moved the app
+to `go.prignano.ai` and chose Go (the language) for the game logic (see "Languages"). Builds wait for this app's turn in the
 queue: one build at a time, Gradient Descent first.
 
 ## What it is
 
-**Good to Go** (GTG) is a Go app at `gtg.prignano.ai` whose main job is to take someone who has
-never played Go to finishing full games. It is built the way Chess and Cards are: plain
-JavaScript and SVG with no build step, static files plus one Cloudflare Worker, installable as an
-app (PWA) from day one.
+**Good to Go** (GTG) is a Go app at `go.prignano.ai` whose main job is to take someone who has
+never played Go to finishing full games. Fittingly, its game logic is written in Go (the
+programming language) and compiled to WebAssembly, with a TypeScript and SVG board on top
+(see "Languages"). Like Chess and Cards, it is static files plus one Cloudflare Worker,
+installable as an app (PWA) from day one.
 
 Three parts, in order of importance:
 
@@ -31,7 +33,8 @@ allowlisted adults under a hard spend cap.
 | # | Question | Answer |
 | --- | --- | --- |
 | 1 | What to build | A Go game like Chess and Cards, with learning to play Go as the main objective (owner, 2026-11-11) |
-| 2 | Name | **Good to Go**, at `gtg.prignano.ai`, repo `nickprignano/goodtogo` (owner, 2026-11-11) |
+| 2 | Name | **Good to Go**, at `go.prignano.ai` (moved from `gtg.prignano.ai`, owner, 2026-11-13), repo `nickprignano/goodtogo` (owner, 2026-11-11) |
+| 5 | Languages | Game logic in Go, compiled with TinyGo to WebAssembly; the board, app and Worker in TypeScript (owner, 2026-11-13) |
 | 3 | Age rating | Open. Recommended: all ages for the app; the Claude coach for allowlisted adults, children using it on a parent's sign-in |
 | 4 | Reviews | Fable red team (done, 2026-11-11) and a Gemini outside review (owner, 2026-11-11) |
 | - | License | MIT. Every part is our own; the room and coach Worker code is ported from Chess (GPL-3.0-or-later), which the owner may relicense because the Chess history has only the owner's and Claude's commits (checked 2026-11-11). No GPL engine is shipped (see "Engine") |
@@ -210,10 +213,38 @@ adults the owner edits (its own list, not Chess's family list). Children use the
 parent's signed-in device, so no child's email reaches Google or Access through this app.
 Everything else works without an account.
 
+## Languages
+
+Decided by the owner on 2026-11-13: the Go game is written in Go where it counts.
+
+| Part | Language | Runs where |
+| --- | --- | --- |
+| Rules module, counting, superko, problem solver, Capture Go players, Monte Carlo player, scripted blind spots, concept tags | Go, compiled with TinyGo to one WebAssembly module (target under about 1 MB) | In a Web Worker on the device, and inside the Cloudflare Worker for rooms and the coach, so both run the same compiled rules |
+| Board, lessons, app screens, service worker | TypeScript and SVG | Browser |
+| Cloudflare Worker and Durable Objects (rooms, registry, budget, coach) | TypeScript, ported from the Chess Worker's JavaScript | Cloudflare |
+| KataGo network inference (if the spike passes) | TypeScript calling ONNX Runtime Web; the Go module supplies the input features and the move choice | Web Worker on the device |
+
+- **TinyGo, not the standard Go compiler:** standard Go's WebAssembly output starts at about 2
+  MB and needs its own runtime shim; TinyGo's is far smaller and loads fast on phones. The Go code
+  sticks to what TinyGo supports (no `reflect`-heavy libraries, no goroutines across the JS
+  boundary). The module exposes a small, flat API (play, legal moves, count, solve, choose move)
+  that passes plain numbers and byte arrays, never JSON strings, so calls stay cheap.
+- **One source of truth for legality:** the same `.wasm` file is loaded by the browser and the
+  Worker; a CI test checks that the Worker's copy is byte-identical to the app's.
+- **This adds a build step.** Chess and Cards have none. Here, CI and Workers Builds run `tinygo
+  build` for the module and `esbuild` for the TypeScript, both with pinned versions. The built
+  files are not committed.
+- **Tests:** `go test ./...` for the rules, solver and players (fast, run on every push), plus
+  `node --test` on the built TypeScript for the board, the Worker and the WebAssembly boundary.
+- **Worker size and CPU:** a WebAssembly module counts toward the Worker's size limit and its
+  start-up time. Build 4 measures both before rooms ship; if the module is too big for the Worker,
+  the Worker gets a smaller build with only the rules and counting.
+
 ## Rules and engine
 
 **Rules: our own module.** Placing, capture, no suicide, positional superko, passing, area
-counting and the problem solver. The same file runs in the browser and the Worker. A CI suite
+counting and the problem solver, written in Go (see "Languages"). The same compiled module runs
+in the browser and the Worker. A CI suite
 covers captures, ko, superko cycles, seki and counting.
 
 - **Scoring:** area scoring, 7.5 komi for even games, 0.5 with handicap, no extra handicap
@@ -269,8 +300,9 @@ cache-first service worker with a content-hash version a test keeps fresh. Lesso
 the small players are cached at install, so learning works offline; the network is cached the
 first time it's used.
 
-**Stack.** Plain JavaScript and SVG, no build step, one Cloudflare Worker with three Durable
-Objects (room, registry, budget), Workers Builds deploys on merge to `main`.
+**Stack.** Go compiled to WebAssembly for the game logic, TypeScript and SVG for everything else,
+one Cloudflare Worker with three Durable Objects (room, registry, budget), Workers Builds runs the
+build and deploys on merge to `main`.
 
 **Privacy.** The defaults assume children will play, whatever the age rating:
 
@@ -288,9 +320,9 @@ Objects (room, registry, budget), Workers Builds deploys on merge to `main`.
 
 Four PRs, one at a time, after Gradient Descent and whatever else is ahead in the queue:
 
-1. **Board, rules and stages 1 to 3:** board, stones, sounds, rules module and problem solver with
-   tests, Capture Go players, two on one device, saved games, the first lessons through the
-   first counted game, PWA, deploy to the subdomain.
+1. **Board, rules and stages 1 to 3:** the Go module and its build (TinyGo, esbuild, CI), board,
+   stones, sounds, rules module and problem solver with tests, Capture Go players, two on one device, saved games, the first lessons through the
+   first counted game, PWA, deploy to `go.prignano.ai`.
 2. **Engine, levels and the rest of the path:** the KataGo spike first, then the GTG level ladder,
    handicap, stages 4 to 6, the Problems tab with about 150 solver-checked problems, counting and
    the territory map.

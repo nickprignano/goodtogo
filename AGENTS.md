@@ -1,14 +1,18 @@
 # Instructions for AI assistants
 
-Good to Go is an original app for learning and playing Go: plain JavaScript and SVG, no build
-step, static files plus one Cloudflare Worker for rooms and the coach. The plan is in
+Good to Go is an original app for learning and playing Go at `go.prignano.ai`. The game logic
+(rules, counting, problem solver, computer players) is Go compiled with TinyGo to WebAssembly; the
+board, app and Cloudflare Worker are TypeScript and SVG. Static files plus one Worker for rooms
+and the coach. The plan is in
 [docs/SPEC.md](docs/SPEC.md); read it first.
 
 - It's original work. No other Go app's, server's or book's name, art, sounds or problems.
-  Problems are our own, engine-generated, or from public-domain classical collections, each with
-  its source recorded.
+  Problems are our own or cut from computer games, each proved by the solver, with its source
+  recorded.
 - Kids may play. No analytics, no free-text input to Claude, no personal data beyond what the
   spec lists. Progress stays on the device.
+- Game logic lives in the Go module, never duplicated in TypeScript. Browser and Worker load the
+  same compiled `.wasm`. Keep the Go code TinyGo-compatible.
 - Claude never reads the board itself: every fact in a coach request comes from the rules module
   or the engine, as structured data the Worker checks.
 - The Claude API key lives only in a Cloudflare Worker secret. Never in the repo, a claude.ai
@@ -42,5 +46,6 @@ Four rules after the community "Karpathy guidelines" (MIT), reworded for agents 
 ## Checks to run
 
 ```bash
+go test ./...
 node --test
 ```
