@@ -1,10 +1,10 @@
 # Good to Go spec (v1)
 
-Status: merged as a draft in PR #1 (2026-11-11), then red-teamed with Fable the same day (table at
-the end; every finding folded in). Still to come: the owner's answers to the open questions and
-an outside review by Gemini, both folded into this file. On 2026-11-13 the owner moved the app
-to `go.prignano.ai` and chose Go (the language) for the game logic (see "Languages"). Builds wait for this app's turn in the
-queue: one build at a time, Gradient Descent first.
+Status: merged as a draft in PR #1 (2026-11-11), red-teamed with Fable the same day (table at
+the end; every finding folded in), updated for `go.prignano.ai` and Go/TinyGo game logic on
+2026-11-13, and finalized with Gemini's outside review, the ELI5 / Helper mode toggle, and the
+owner's decisions on 2026-11-18. Builds wait for this app's turn in the queue: one build at a
+time, Gradient Descent first.
 
 ## What it is
 
@@ -35,8 +35,9 @@ allowlisted adults under a hard spend cap.
 | 1 | What to build | A Go game like Chess and Cards, with learning to play Go as the main objective (owner, 2026-11-11) |
 | 2 | Name | **Good to Go**, at `go.prignano.ai` (moved from `gtg.prignano.ai`, owner, 2026-11-13), repo `nickprignano/goodtogo` (owner, 2026-11-11) |
 | 5 | Languages | Game logic in Go, compiled with TinyGo to WebAssembly; the board, app and Worker in TypeScript (owner, 2026-11-13) |
-| 3 | Age rating | Open. Recommended: all ages for the app; the Claude coach for allowlisted adults, children using it on a parent's sign-in |
-| 4 | Reviews | Fable red team (done, 2026-11-11) and a Gemini outside review (owner, 2026-11-11) |
+| 3 | Age rating | All ages for the app; the Claude coach for allowlisted adults, children using it on a parent's sign-in (owner, 2026-11-18) |
+| 4 | Reviews | Fable red team (done, 2026-11-11) and Gemini outside review (done, 2026-11-18) |
+| 6 | Coach budget | $5 a month hard workspace limit on Sonnet, like Cards (owner, 2026-11-18) |
 | - | License | MIT. Every part is our own; the room and coach Worker code is ported from Chess (GPL-3.0-or-later), which the owner may relicense because the Chess history has only the owner's and Claude's commits (checked 2026-11-11). No GPL engine is shipped (see "Engine") |
 
 ## Goals and non-goals
@@ -166,6 +167,10 @@ only name ideas the code has detected.
 
 - Warnings during learning games: "this stone has one liberty left", "that move fills your own
   eye".
+- **ELI5 / Helper mode toggle** (stored on the device): keeps liberty dots, atari rings, and
+  plain-language warnings turned on during games against the computer and two-on-one-device games,
+  and defaults the coach to **Beginner** with extra-simple wording. Off in rooms (like hints);
+  vs-computer games played with it on don't move your GTG level, same as hints.
 - Problem feedback: the solver's refutation of a wrong answer, played out on the board.
 - After every game: a territory map, the score, and the three moments where the score lead swung
   most, each with the lesson that teaches the idea detected there.
@@ -178,7 +183,9 @@ only name ideas the code has detected.
 - Two voices: **Beginner** (one idea, no jargon) and **Club** (names the shape or tactic).
 
 **What Claude sees.** The Worker rebuilds every prompt from its own replay of the game and never
-forwards request JSON. For each of the three moments only (not the whole game):
+forwards request JSON. For `"Explain this move"` on a problem (which starts mid-game), the Worker
+looks up the starting position by `problemId` from the bundled problem set rather than trusting
+an arbitrary board state from the client. For each of the three moments only (not the whole game):
 
 - The local position as a list of moves, each `{n, colour, point}` with passes explicit (handicap
   games start with White, so colour is never inferred from move order).
@@ -200,7 +207,7 @@ was not supplied. A rejected reply falls back to the free notes and still counts
 user's limit. The review is labelled "written by AI".
 
 **Spend,** carried over from Chess and Cards with all their fixes: its own Anthropic workspace
-with a hard monthly limit ($5 proposed), Sonnet 5.5, the reserve-then-settle budget Durable
+with a $5 monthly limit, Sonnet, the reserve-then-settle budget Durable
 Object, a daily cap, and failing closed to the free notes. Also: `ctx.waitUntil()` around the call
 and its settlement; reservations not settled within 2 minutes count as spent; the workspace
 limit's 400 response is handled; filtered or cut-off replies count against the user; and usage
@@ -225,10 +232,14 @@ Decided by the owner on 2026-11-13: the Go game is written in Go where it counts
 | KataGo network inference (if the spike passes) | TypeScript calling ONNX Runtime Web; the Go module supplies the input features and the move choice | Web Worker on the device |
 
 - **TinyGo, not the standard Go compiler:** standard Go's WebAssembly output starts at about 2
-  MB and needs its own runtime shim; TinyGo's is far smaller and loads fast on phones. The Go code
-  sticks to what TinyGo supports (no `reflect`-heavy libraries, no goroutines across the JS
-  boundary). The module exposes a small, flat API (play, legal moves, count, solve, choose move)
-  that passes plain numbers and byte arrays, never JSON strings, so calls stay cheap.
+  MB and needs its own runtime shim; TinyGo's is far smaller and loads fast on phones. Compile with
+  `-target=wasm-unknown` (no `fmt`/`os`/`time` imports) so there is zero `wasm_exec.js` shim
+  and the Worker can load it via static ES module import (`import wasm from './rules.wasm'`). The
+  Go code sticks to what TinyGo supports (no `reflect`-heavy libraries, no goroutines across the JS
+  boundary) and keeps calls stateless or resets a fixed scratch arena so long-lived Durable
+  Objects don't grow linear memory. The module exposes a small, flat API (play, legal moves, count,
+  solve, choose move) that passes plain numbers and byte arrays, never JSON strings, so calls stay
+  cheap.
 - **One source of truth for legality:** the same `.wasm` file is loaded by the browser and the
   Worker; a CI test checks that the Worker's copy is byte-identical to the app's.
 - **This adds a build step.** Chess and Cards have none. Here, CI and Workers Builds run `tinygo
@@ -308,7 +319,8 @@ build and deploys on merge to `main`.
 
 - Progress, levels, games and problem history stay on the device, with an export and import file
   because Safari can clear storage. "Delete my data" clears them.
-- No analytics, ads, trackers or third-party scripts, a strict Content-Security-Policy, and the
+- No analytics, ads, trackers or third-party scripts, a strict Content-Security-Policy (with
+  `'wasm-unsafe-eval'` in `script-src` for WebAssembly instantiation), and the
   theme header pinned by commit with an integrity hash, as in Chess.
 - Rooms keep nothing after they close. The Worker keeps no game records or request logs.
 - Claude receives only the three moments' facts, the stage and the level.
@@ -321,11 +333,12 @@ build and deploys on merge to `main`.
 Four PRs, one at a time, after Gradient Descent and whatever else is ahead in the queue:
 
 1. **Board, rules and stages 1 to 3:** the Go module and its build (TinyGo, esbuild, CI), board,
-   stones, sounds, rules module and problem solver with tests, Capture Go players, two on one device, saved games, the first lessons through the
-   first counted game, PWA, deploy to `go.prignano.ai`.
+   stones, sounds, rules module (including basic area counting) and problem solver with tests,
+   Capture Go players, two on one device, saved games, the ELI5 / Helper mode toggle, the first
+   lessons through the first counted game, PWA, deploy to `go.prignano.ai`.
 2. **Engine, levels and the rest of the path:** the KataGo spike first, then the GTG level ladder,
-   handicap, stages 4 to 6, the Problems tab with about 150 solver-checked problems, counting and
-   the territory map.
+   handicap, stages 4 to 6, the Problems tab with about 150 solver-checked problems, and the
+   engine-powered territory ownership map and dead-stone estimation.
 3. **Coach:** Worker, Cloudflare Access, budget and limits, concept tags, output filter, review
    and "Explain this move", free on-device notes, privacy page.
 4. **Rooms:** registry and room Durable Objects, hard caps, clocks, the dead-stone agreement.
@@ -336,9 +349,7 @@ key in the Worker secret, and set up the coach allowlist in Cloudflare Access.
 
 ## Open questions for the owner
 
-1. **Age rating.** Recommended: all ages for the app, the coach for allowlisted adults only.
-2. **Coach budget.** $5 a month on Sonnet 5.5, like Cards? Chess uses $10.
-3. **19x19 in v1.** Now decided by the engine spike: it ships only if it passes on phones.
+All v1 spec questions are resolved (19x19 in v1 will be decided by the Build 2 engine spike on phones).
 
 ## Fable red team (2026-11-11): what it found and what changed
 
