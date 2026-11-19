@@ -174,3 +174,9 @@ func gtg_score_with_dead_black_x2() int32 {
 	terrBuf = terr
 	return lastBlackX2
 }
+
+//export gtg_detect_coach_tags
+func gtg_detect_coach_tags(idx int32) uint32 {
+	ensureBoard()
+	return engine.DetectCoachTags(board, int(idx))
+}

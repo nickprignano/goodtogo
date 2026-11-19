@@ -26,6 +26,7 @@ import {
   WARN_SELF_ATARI,
   WHITE,
   coordLabel,
+  tagsToConcepts,
 } from './wasm.js';
 
 interface DemoMove {
@@ -110,6 +111,9 @@ let playNote = '';
 let territoryOverlay: Uint8Array | null = null;
 let deadOverlay: Uint8Array | null = null;
 let scoreSummary = '';
+let coachNotes = '';
+let coachVoice: 'beginner' | 'club' = 'beginner';
+let showPrivacy = false;
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -712,9 +716,25 @@ function render(): void {
     }
   });
 
-  dataBtns.append(exportBtn, importBtn, delBtn);
+  const privBtn = el('button', 'link-btn', 'Privacy');
+  privBtn.addEventListener('click', () => {
+    showPrivacy = !showPrivacy;
+    render();
+  });
+
+  dataBtns.append(privBtn, exportBtn, importBtn, delBtn);
   footer.appendChild(dataBtns);
   shell.appendChild(footer);
+
+  if (showPrivacy) {
+    const privCard = el('div', 'card');
+    privCard.append(
+      el('h2', '', 'Privacy'),
+      el('p', 'muted', 'All lessons, problem history, and games stay on your device. There are no ads, trackers, or analytics.'),
+      el('p', 'muted', 'Outside requests: Cloudflare (static hosting and Access sign-in logs), Google (sign-in for allowlisted adults on the Coach), and Google Gemini API (short-term API retention when a signed-in adult taps AI Coach Review or Explain this move).')
+    );
+    shell.appendChild(privCard);
+  }
 
   root.replaceChildren(shell);
 }
@@ -889,7 +909,38 @@ function renderProblems(): HTMLElement {
   const resetBtn = el('button', 'btn secondary', 'Reset');
   resetBtn.addEventListener('click', () => openBankProblem(prob));
 
-  actions.append(dailyBtn, hintBtn, resetBtn, nextBtn);
+  const explainBtn = el('button', 'btn secondary', 'Explain this move');
+  explainBtn.addEventListener('click', async () => {
+    bankFeedback = 'Asking coach…';
+    render();
+    try {
+      const res = await fetch('./api/coach/explain', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          problemId: prob.id,
+          size: prob.size,
+          komiX2: 15,
+          handicap: 0,
+          moves: [],
+          moveIndex: 0,
+          voice: state.eli5Mode ? 'beginner' : coachVoice,
+          eli5: state.eli5Mode,
+        }),
+      });
+      const data = (await res.json()) as { ok?: boolean; label?: string; reply?: { summary: string; idea: string } };
+      if (data.ok && data.reply) {
+        bankFeedback = `${data.label ?? 'Written by AI'}: ${data.reply.summary} ${data.reply.idea}`;
+      } else {
+        bankFeedback = `Free note: ${prob.hint}`;
+      }
+    } catch {
+      bankFeedback = `Free note: ${prob.hint}`;
+    }
+    render();
+  });
+
+  actions.append(dailyBtn, hintBtn, resetBtn, explainBtn, nextBtn);
   side.appendChild(actions);
 
   const filters = el('div', 'presets');
@@ -990,6 +1041,70 @@ function renderPlay(mode: 'computer' | 'shared'): HTMLElement {
 
     actions.append(undoBtn, passBtn, newBtn);
     side.appendChild(actions);
+
+    if (engine.winner !== 0 && currentGame.captureTarget === 0) {
+      const coachRow = el('div', 'actions');
+      const voiceBtn = el('button', 'btn secondary small', `Coach: ${coachVoice}`);
+      voiceBtn.addEventListener('click', () => {
+        coachVoice = coachVoice === 'beginner' ? 'club' : 'beginner';
+        render();
+      });
+
+      const reviewBtn = el('button', 'btn secondary', 'AI Coach Review');
+      reviewBtn.addEventListener('click', async () => {
+        coachNotes = 'Analyzing key moments…';
+        render();
+
+        // Always compute free on-device concept notes as instant fallback
+        const freeNotes: string[] = [];
+        engine.newGame(currentGame!.size, currentGame!.komiX2, 0);
+        if (currentGame!.handicap >= 2) engine.setupHandicap(currentGame!.handicap);
+        for (let i = 0; i < currentGame!.moves.length; i++) {
+          const mv = currentGame!.moves[i];
+          if (mv >= 0) {
+            const concepts = tagsToConcepts(engine.detectCoachTags(mv));
+            if (concepts.length > 0) {
+              freeNotes.push(`Move ${i + 1}: ${concepts[0].note}`);
+            }
+          }
+          engine.play(mv);
+        }
+        const freeFallback =
+          freeNotes.slice(-3).join(' ') || 'Good game! Review your corner openings and group liberties.';
+
+        try {
+          const res = await fetch('./api/coach/review', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              size: currentGame!.size,
+              komiX2: currentGame!.komiX2,
+              handicap: currentGame!.handicap,
+              moves: currentGame!.moves,
+              stage: 3,
+              voice: state.eli5Mode ? 'beginner' : coachVoice,
+              eli5: state.eli5Mode,
+            }),
+          });
+          const data = (await res.json()) as { ok?: boolean; label?: string; reply?: { summary: string; idea: string } };
+          if (data.ok && data.reply) {
+            coachNotes = `${data.label ?? 'Written by AI'}: ${data.reply.summary} ${data.reply.idea}`;
+          } else {
+            coachNotes = `Free notes: ${freeFallback}`;
+          }
+        } catch {
+          coachNotes = `Free notes: ${freeFallback}`;
+        }
+        replaySavedGame(currentGame!);
+        render();
+      });
+
+      coachRow.append(voiceBtn, reviewBtn);
+      side.appendChild(coachRow);
+      if (coachNotes) {
+        side.appendChild(el('div', 'feedback-box', coachNotes));
+      }
+    }
   }
 
   layout.append(boardBox, side);

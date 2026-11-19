@@ -21,6 +21,8 @@ export const WARN_PUT_IN_ATARI = 1 << 1;
 export const WARN_SELF_ATARI = 1 << 2;
 export const WARN_FILL_OWN_EYE = 1 << 3;
 export const WARN_SAVED_ATARI = 1 << 4;
+export const TAG_KO = 1 << 5;
+export const TAG_CORNER = 1 << 6;
 
 export const GOAL_CAPTURE_ANY = 1;
 export const GOAL_CAPTURE_TARGET = 2;
@@ -62,6 +64,7 @@ export interface RulesExports {
   gtg_ownership_ptr(): number;
   gtg_dead_ptr(): number;
   gtg_score_with_dead_black_x2(): number;
+  gtg_detect_coach_tags(idx: number): number;
 }
 
 export class RulesEngine {
@@ -78,6 +81,11 @@ export class RulesEngine {
 
   static async fromBytes(bytes: BufferSource): Promise<RulesEngine> {
     const { instance } = await WebAssembly.instantiate(bytes, {});
+    return new RulesEngine(instance.exports as unknown as RulesExports);
+  }
+
+  static async fromModule(mod: WebAssembly.Module): Promise<RulesEngine> {
+    const instance = await WebAssembly.instantiate(mod, {});
     return new RulesEngine(instance.exports as unknown as RulesExports);
   }
 
@@ -204,6 +212,42 @@ export class RulesEngine {
     const territory = new Uint8Array(this.e.memory.buffer, tPtr, n).slice();
     return { black: bx2 / 2, white: wx2 / 2, territory };
   }
+
+  detectCoachTags(idx: number): number {
+    return this.e.gtg_detect_coach_tags(idx);
+  }
+}
+
+export interface ConceptInfo {
+  tag: string;
+  lessonId: string;
+  note: string;
+}
+
+export function tagsToConcepts(flags: number): ConceptInfo[] {
+  const out: ConceptInfo[] = [];
+  if (flags & TAG_KO) {
+    out.push({ tag: 'ko', lessonId: 's4-ko', note: 'A ko capture happened here — remember the ko rule.' });
+  }
+  if (flags & WARN_CAPTURE) {
+    out.push({ tag: 'capture', lessonId: 's1-capturing', note: 'Stones were captured by taking their last liberty.' });
+  }
+  if (flags & WARN_SAVED_ATARI) {
+    out.push({ tag: 'saved_atari', lessonId: 's1-atari', note: 'A stone in atari was saved by adding liberties.' });
+  }
+  if (flags & WARN_PUT_IN_ATARI) {
+    out.push({ tag: 'atari', lessonId: 's1-atari', note: 'This move put an enemy group in atari (1 liberty left).' });
+  }
+  if (flags & WARN_SELF_ATARI) {
+    out.push({ tag: 'self_atari', lessonId: 's1-liberties', note: 'This stone was left with only 1 liberty.' });
+  }
+  if (flags & WARN_FILL_OWN_EYE) {
+    out.push({ tag: 'own_eye', lessonId: 's2-two-eyes', note: 'Playing inside your own eye can reduce your group’s life.' });
+  }
+  if (flags & TAG_CORNER) {
+    out.push({ tag: 'corner_opening', lessonId: 's5-corners', note: 'Corners are the easiest places to surround territory.' });
+  }
+  return out;
 }
 
 export function coordLabel(size: number, idx: number): string {
