@@ -4,13 +4,20 @@
   "description": "Learn to play Go, from your first capture to full games.",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f7f4ee",
-  "theme_color": "#d9b37c",
+  "background_color": "#F7F5F0",
+  "theme_color": "#DCB56E",
   "icons": [
     {
-      "src": "./icons/icon.svg",
+      "src": "./icons/logo-mark.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ]
 }

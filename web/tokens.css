@@ -1,0 +1,140 @@
+/**
+ * Good to Go (go.prignano.ai) — Design Tokens v1.0.0
+ * Studio: Quiet Arcades (prignano.ai / prignano-theme)
+ * Aesthetic: Warm Washi & Hon-Kaya (Light) / Evening Slate & Lamp-Lit Kaya (Dark)
+ *
+ * Accessibility & Colorblind Safety:
+ * - Body text (--text) achieves >16.0:1 AAA contrast on --bg in both modes.
+ * - Muted copy (--muted) achieves >6.4:1 AA+ contrast on --bg in both modes.
+ * - Teaching marks separate along the Cerulean-Blue (--liberty) vs. Vermilion (--atari)
+ *   opponent axis (>3.7:1 direct board contrast + contrasting halo) and pair with
+ *   distinct vector geometry (filled dot vs. hollow danger ring vs. target ring).
+ */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Core UI Surfaces & Ink (Quiet Arcades Daylight Washi) */
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --text: #16171A;
+  --muted: #555962;
+  --border: #DDD8CE;
+  --accent: #C2361E;
+
+  /* Goban, Stones & Colorblind-Safe Teaching Marks */
+  --board: #DCB56E;
+  --board-line: #382812;
+  --stone-black: #17191D;
+  --stone-white: #FAF8F2;
+  --atari: #C42B1C;
+  --liberty: #075670;
+  --pulse: #23538A;
+
+  /* Tactile Companion Tokens (Rims, Halos & Elevation) */
+  --surface-sunken: #EDEAE2;
+  --accent-contrast: #FFFFFF;
+  --board-border: #9E783B;
+  --stone-black-rim: #353A45;
+  --stone-white-rim: #6E5839;
+  --mark-halo: #FAF8F2;
+  --shadow-card: 0 1px 2px rgba(22, 23, 26, 0.05), 0 6px 20px rgba(22, 23, 26, 0.04);
+  --shadow-stone: 0 2px 4px rgba(42, 28, 11, 0.24);
+
+  /* Zero-CDN System & Clean Geometric Typography Stack */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Newsreader', 'Charter', 'Bitstream Charter', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code', Consolas, 'Liberation Mono', monospace;
+
+  /* Radii & Motion */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --ease-calm: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    /* Core UI Surfaces & Ink (Quiet Arcades Evening Slate) */
+    --bg: #111317;
+    --surface: #191C22;
+    --text: #F0EEE9;
+    --muted: #9CA2AE;
+    --border: #2A2F3A;
+    --accent: #FF6B4A;
+
+    /* Goban, Stones & Colorblind-Safe Teaching Marks (Lamp-Lit Kaya) */
+    --board: #826135;
+    --board-line: #1A1208;
+    --stone-black: #111316;
+    --stone-white: #ECE8DF;
+    --atari: #FF6652;
+    --liberty: #7CE8FF;
+    --pulse: #7AB4F8;
+
+    /* Tactile Companion Tokens */
+    --surface-sunken: #0B0D10;
+    --accent-contrast: #111317;
+    --board-border: #694D28;
+    --stone-black-rim: #3E4554;
+    --stone-white-rim: #4D3B22;
+    --mark-halo: #16181D;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.28);
+    --shadow-stone: 0 2px 5px rgba(0, 0, 0, 0.42);
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #111317;
+  --surface: #191C22;
+  --text: #F0EEE9;
+  --muted: #9CA2AE;
+  --border: #2A2F3A;
+  --accent: #FF6B4A;
+
+  --board: #826135;
+  --board-line: #1A1208;
+  --stone-black: #111316;
+  --stone-white: #ECE8DF;
+  --atari: #FF6652;
+  --liberty: #7CE8FF;
+  --pulse: #7AB4F8;
+
+  --surface-sunken: #0B0D10;
+  --accent-contrast: #111317;
+  --board-border: #694D28;
+  --stone-black-rim: #3E4554;
+  --stone-white-rim: #4D3B22;
+  --mark-halo: #16181D;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.28);
+  --shadow-stone: 0 2px 5px rgba(0, 0, 0, 0.42);
+}
+
+/* Gentle, Reduced-Motion-Safe Teaching Pulse */
+@keyframes gtg-pulse-ring {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.16);
+    opacity: 0.35;
+  }
+}
+
+.gtg-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gtg-pulse-ring 2.6s var(--ease-calm) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gtg-pulse {
+    animation: none;
+  }
+}

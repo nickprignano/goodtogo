@@ -602,7 +602,13 @@ function render(): void {
 
   const header = el('header', 'topbar');
   const brand = el('div', 'brand');
-  brand.append(el('span', 'brand-title', 'Good to Go'), el('span', 'brand-sub', 'go.prignano.ai'));
+  const mark = document.createElement('img');
+  mark.src = './icons/logo-mark.svg';
+  mark.alt = '';
+  mark.className = 'brand-mark';
+  const brandText = el('div', 'brand-text');
+  brandText.append(el('span', 'brand-title', 'Good to Go'), el('span', 'brand-sub', 'go.prignano.ai'));
+  brand.append(mark, brandText);
 
   const nav = el('nav', 'tabs');
   (['learn', 'problems', 'computer', 'shared', 'friend'] as Tab[]).forEach((t) => {
