@@ -117,3 +117,19 @@ self.addEventListener('fetch', (event) => {
 
 writeFileSync(join(distDir, 'sw.js'), sw);
 console.log(`Built dist/ (sw version: goodtogo-${version})`);
+
+// 5. Bundle Cloudflare Worker and copy byte-identical rules.wasm
+const workerDist = join(root, 'worker', 'dist');
+rmSync(workerDist, { recursive: true, force: true });
+mkdirSync(workerDist, { recursive: true });
+cpSync(join(distDir, 'rules.wasm'), join(workerDist, 'rules.wasm'));
+
+await esbuild.build({
+  entryPoints: [join(root, 'worker', 'src', 'index.ts')],
+  bundle: true,
+  format: 'esm',
+  target: 'es2022',
+  external: ['./rules.wasm'],
+  outfile: join(workerDist, 'index.js'),
+});
+console.log('Built worker/dist/');
