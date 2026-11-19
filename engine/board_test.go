@@ -169,3 +169,31 @@ func TestChooseMoveLegal(t *testing.T) {
 		}
 	}
 }
+
+func TestHandicapAndGTGAndOwnership(t *testing.T) {
+	b := NewBoard(9, 15, 0)
+	b.SetupHandicap(4)
+	if b.Turn != White {
+		t.Fatalf("expected White to play first in handicap game, got %d", b.Turn)
+	}
+	if b.KomiX2 != 1 {
+		t.Fatalf("expected 0.5 komi (1), got %d", b.KomiX2)
+	}
+
+	mv := ChooseMoveGTG(b, 6, 99)
+	if mv != PassPoint && b.IsLegal(mv) != PlayOK {
+		t.Fatalf("GTG level 6 chose illegal move %d", mv)
+	}
+
+	_, own := EstimateOwnership(b, 24, 99)
+	if len(own) != MaxPoints {
+		t.Fatalf("unexpected ownership length")
+	}
+
+	var dead [MaxPoints]uint8
+	dead[pt(9, 2, 2)] = 1
+	bx2, _, _ := b.AreaScoreWithDead(&dead)
+	if bx2 <= 0 {
+		t.Fatalf("expected positive black score")
+	}
+}

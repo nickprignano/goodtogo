@@ -132,9 +132,34 @@ test('All lesson demos and problems replay cleanly in rules.wasm', async () => {
   }
 });
 
+test('All 150 problems in problems.json are proved by the WASM solver', async () => {
+  const e = await loadWasm();
+  const data = JSON.parse(readFileSync(join(root, 'web', 'data', 'problems.json'), 'utf8'));
+  assert.ok(data.problems.length >= 150, `Expected >= 150 problems, got ${data.problems.length}`);
+
+  for (const prob of data.problems) {
+    assert.ok(prob.acceptedMoves.length > 0, `Problem ${prob.id} has no acceptedMoves`);
+    for (const mv of prob.acceptedMoves) {
+      e.gtg_new_game(prob.size, 15, 0);
+      for (const [idx, color] of prob.stones) {
+        e.gtg_set_stone(idx, color);
+      }
+      e.gtg_set_turn(prob.turn);
+      e.gtg_reset_history();
+      const goal = prob.goal === 'capture_target' ? GOAL_CAPTURE_TARGET : GOAL_SAVE_TARGET;
+      assert.equal(
+        e.gtg_solve(mv, goal, prob.targetPoint, 3, 2),
+        1,
+        `Solver rejected ${prob.id} move ${mv}`
+      );
+    }
+  }
+});
+
 test('Service worker is generated with a content-hash version and offline assets', () => {
   const sw = readFileSync(join(root, 'dist', 'sw.js'), 'utf8');
   assert.match(sw, /CACHE_NAME = 'goodtogo-[0-9a-f]{12}'/);
   assert.match(sw, /\.\/rules\.wasm/);
   assert.match(sw, /\.\/data\/lessons\.json/);
+  assert.match(sw, /\.\/data\/problems\.json/);
 });

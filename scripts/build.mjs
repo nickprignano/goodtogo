@@ -78,6 +78,7 @@ const assets = [
   './manifest.webmanifest',
   './icons/icon.svg',
   './data/lessons.json',
+  './data/problems.json',
 ];
 
 const hash = createHash('sha256');

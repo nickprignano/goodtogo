@@ -7,9 +7,16 @@ export interface SavedGame {
   komiX2: number;
   captureTarget: number;
   level: number;
+  handicap: number;
+  assisted: boolean;
   playerColor: number; // 1 = Black, 2 = White (for vs computer)
   moves: number[]; // point indices or -1 for pass
   updatedAt: number;
+}
+
+export interface ProblemReview {
+  dueAt: number;
+  intervalDays: number;
 }
 
 export interface UserState {
@@ -20,6 +27,11 @@ export interface UserState {
   highContrast: boolean;
   completedLessons: string[];
   captureWinsStage1: number;
+  gtgLevel: number;
+  winStreak: number;
+  lossStreak: number;
+  solvedProblems: string[];
+  problemReviews: Record<string, ProblemReview>;
   savedGame: SavedGame | null;
 }
 
@@ -34,6 +46,11 @@ export function defaultState(): UserState {
     highContrast: false,
     completedLessons: [],
     captureWinsStage1: 0,
+    gtgLevel: 1,
+    winStreak: 0,
+    lossStreak: 0,
+    solvedProblems: [],
+    problemReviews: {},
     savedGame: null,
   };
 }

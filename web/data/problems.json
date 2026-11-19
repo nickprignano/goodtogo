@@ -1,0 +1,4720 @@
+{
+  "problems": [
+    {
+      "id": "p-001",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 0,
+      "acceptedMoves": [
+        5,
+        6,
+        10
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-002",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 1,
+      "acceptedMoves": [
+        6
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-003",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 2,
+      "acceptedMoves": [
+        7
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-004",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          4,
+          2
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 4,
+      "acceptedMoves": [
+        2,
+        3,
+        8
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-005",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          9,
+          2
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          14,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 9,
+      "acceptedMoves": [
+        8
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-006",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          14,
+          2
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          19,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 14,
+      "acceptedMoves": [
+        13
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-007",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          24,
+          2
+        ],
+        [
+          23,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 24,
+      "acceptedMoves": [
+        14,
+        18,
+        19
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-008",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          23,
+          2
+        ],
+        [
+          24,
+          1
+        ],
+        [
+          22,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 23,
+      "acceptedMoves": [
+        18
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-009",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          22,
+          2
+        ],
+        [
+          23,
+          1
+        ],
+        [
+          21,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 22,
+      "acceptedMoves": [
+        17
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-010",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          20,
+          2
+        ],
+        [
+          15,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 20,
+      "acceptedMoves": [
+        16,
+        21,
+        22
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-011",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          15,
+          2
+        ],
+        [
+          20,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 15,
+      "acceptedMoves": [
+        16
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-012",
+      "category": "capture",
+      "level": 1,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          10,
+          2
+        ],
+        [
+          15,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 10,
+      "acceptedMoves": [
+        11
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-013",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 0,
+      "acceptedMoves": [
+        7,
+        8,
+        14
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-014",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 1,
+      "acceptedMoves": [
+        8
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-015",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 2,
+      "acceptedMoves": [
+        9
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-016",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 3,
+      "acceptedMoves": [
+        10
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-017",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          4,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 4,
+      "acceptedMoves": [
+        11
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-018",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          6,
+          2
+        ],
+        [
+          13,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 6,
+      "acceptedMoves": [
+        4,
+        5,
+        12
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-019",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          13,
+          2
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          20,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 13,
+      "acceptedMoves": [
+        12
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-020",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          20,
+          2
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          27,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 20,
+      "acceptedMoves": [
+        19
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-021",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          27,
+          2
+        ],
+        [
+          20,
+          1
+        ],
+        [
+          34,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 27,
+      "acceptedMoves": [
+        26
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-022",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          34,
+          2
+        ],
+        [
+          27,
+          1
+        ],
+        [
+          41,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 34,
+      "acceptedMoves": [
+        33
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-023",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          48,
+          2
+        ],
+        [
+          47,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 48,
+      "acceptedMoves": [
+        34,
+        40,
+        41
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-024",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          47,
+          2
+        ],
+        [
+          48,
+          1
+        ],
+        [
+          46,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 47,
+      "acceptedMoves": [
+        40
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-025",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          46,
+          2
+        ],
+        [
+          47,
+          1
+        ],
+        [
+          45,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 46,
+      "acceptedMoves": [
+        39
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-026",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          45,
+          2
+        ],
+        [
+          46,
+          1
+        ],
+        [
+          44,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 45,
+      "acceptedMoves": [
+        38
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-027",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          44,
+          2
+        ],
+        [
+          45,
+          1
+        ],
+        [
+          43,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 44,
+      "acceptedMoves": [
+        37
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-028",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          42,
+          2
+        ],
+        [
+          35,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 42,
+      "acceptedMoves": [
+        36,
+        43,
+        44
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-029",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          35,
+          2
+        ],
+        [
+          42,
+          1
+        ],
+        [
+          28,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 35,
+      "acceptedMoves": [
+        36
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-030",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          28,
+          2
+        ],
+        [
+          35,
+          1
+        ],
+        [
+          21,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 28,
+      "acceptedMoves": [
+        29
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-031",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          21,
+          2
+        ],
+        [
+          28,
+          1
+        ],
+        [
+          14,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 21,
+      "acceptedMoves": [
+        22
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-032",
+      "category": "capture",
+      "level": 1,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          14,
+          2
+        ],
+        [
+          21,
+          1
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 14,
+      "acceptedMoves": [
+        15
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-033",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 0,
+      "acceptedMoves": [
+        9,
+        10,
+        18
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-034",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 1,
+      "acceptedMoves": [
+        10
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-035",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 2,
+      "acceptedMoves": [
+        11
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-036",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 3,
+      "acceptedMoves": [
+        12
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-037",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          4,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 4,
+      "acceptedMoves": [
+        13
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-038",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          5,
+          2
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          6,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 5,
+      "acceptedMoves": [
+        14
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-039",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          6,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 6,
+      "acceptedMoves": [
+        15
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-040",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          8,
+          2
+        ],
+        [
+          17,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 8,
+      "acceptedMoves": [
+        6,
+        7,
+        16
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-041",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          17,
+          2
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          26,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 17,
+      "acceptedMoves": [
+        16
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-042",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          26,
+          2
+        ],
+        [
+          17,
+          1
+        ],
+        [
+          35,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 26,
+      "acceptedMoves": [
+        25
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-043",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          35,
+          2
+        ],
+        [
+          26,
+          1
+        ],
+        [
+          44,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 35,
+      "acceptedMoves": [
+        34
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-044",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          44,
+          2
+        ],
+        [
+          35,
+          1
+        ],
+        [
+          53,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 44,
+      "acceptedMoves": [
+        43
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-045",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          53,
+          2
+        ],
+        [
+          44,
+          1
+        ],
+        [
+          62,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 53,
+      "acceptedMoves": [
+        52
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-046",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          62,
+          2
+        ],
+        [
+          53,
+          1
+        ],
+        [
+          71,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 62,
+      "acceptedMoves": [
+        61
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-047",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          80,
+          2
+        ],
+        [
+          79,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 80,
+      "acceptedMoves": [
+        62,
+        70,
+        71
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-048",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          79,
+          2
+        ],
+        [
+          80,
+          1
+        ],
+        [
+          78,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 79,
+      "acceptedMoves": [
+        70
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-049",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          78,
+          2
+        ],
+        [
+          79,
+          1
+        ],
+        [
+          77,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 78,
+      "acceptedMoves": [
+        69
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-050",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          77,
+          2
+        ],
+        [
+          78,
+          1
+        ],
+        [
+          76,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 77,
+      "acceptedMoves": [
+        68
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-051",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          76,
+          2
+        ],
+        [
+          77,
+          1
+        ],
+        [
+          75,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 76,
+      "acceptedMoves": [
+        67
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-052",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          75,
+          2
+        ],
+        [
+          76,
+          1
+        ],
+        [
+          74,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 75,
+      "acceptedMoves": [
+        66
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-053",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          74,
+          2
+        ],
+        [
+          75,
+          1
+        ],
+        [
+          73,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 74,
+      "acceptedMoves": [
+        65
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-054",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          72,
+          2
+        ],
+        [
+          63,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 72,
+      "acceptedMoves": [
+        64,
+        73,
+        74
+      ],
+      "prompt": "Capture the corner White stone!",
+      "hint": "Cover the last liberty along the edge.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-055",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          63,
+          2
+        ],
+        [
+          72,
+          1
+        ],
+        [
+          54,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 63,
+      "acceptedMoves": [
+        64
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-056",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          54,
+          2
+        ],
+        [
+          63,
+          1
+        ],
+        [
+          45,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 54,
+      "acceptedMoves": [
+        55
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-057",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          45,
+          2
+        ],
+        [
+          54,
+          1
+        ],
+        [
+          36,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 45,
+      "acceptedMoves": [
+        46
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-058",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          36,
+          2
+        ],
+        [
+          45,
+          1
+        ],
+        [
+          27,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 36,
+      "acceptedMoves": [
+        37
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-059",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          27,
+          2
+        ],
+        [
+          36,
+          1
+        ],
+        [
+          18,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 27,
+      "acceptedMoves": [
+        28
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-060",
+      "category": "capture",
+      "level": 1,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          18,
+          2
+        ],
+        [
+          27,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 18,
+      "acceptedMoves": [
+        19
+      ],
+      "prompt": "Capture the edge White stone!",
+      "hint": "Block its last liberty toward the center.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-061",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          6,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 6,
+      "acceptedMoves": [
+        7
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-062",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          7,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          12,
+          1
+        ],
+        [
+          6,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 7,
+      "acceptedMoves": [
+        8
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-063",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          8,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 8,
+      "acceptedMoves": [
+        4,
+        9,
+        14
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-064",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          11,
+          2
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          16,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 11,
+      "acceptedMoves": [
+        12
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-065",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          12,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          17,
+          1
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 12,
+      "acceptedMoves": [
+        13
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-066",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          13,
+          2
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          18,
+          1
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 13,
+      "acceptedMoves": [
+        9,
+        14,
+        19
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-067",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          16,
+          2
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          21,
+          1
+        ],
+        [
+          15,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 16,
+      "acceptedMoves": [
+        17
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-068",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          17,
+          2
+        ],
+        [
+          12,
+          1
+        ],
+        [
+          22,
+          1
+        ],
+        [
+          16,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 17,
+      "acceptedMoves": [
+        18
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-069",
+      "category": "capture",
+      "level": 2,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          18,
+          2
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          23,
+          1
+        ],
+        [
+          17,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 18,
+      "acceptedMoves": [
+        14,
+        19,
+        24
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-070",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          8,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          15,
+          1
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 8,
+      "acceptedMoves": [
+        9
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-071",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          9,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          16,
+          1
+        ],
+        [
+          8,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 9,
+      "acceptedMoves": [
+        10
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-072",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          10,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          17,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 10,
+      "acceptedMoves": [
+        11
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-073",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          11,
+          2
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          18,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 11,
+      "acceptedMoves": [
+        12
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-074",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          12,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          19,
+          1
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 12,
+      "acceptedMoves": [
+        6,
+        13,
+        20
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-075",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          15,
+          2
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          22,
+          1
+        ],
+        [
+          14,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 15,
+      "acceptedMoves": [
+        16
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-076",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          16,
+          2
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          23,
+          1
+        ],
+        [
+          15,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 16,
+      "acceptedMoves": [
+        17
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-077",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          17,
+          2
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          24,
+          1
+        ],
+        [
+          16,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 17,
+      "acceptedMoves": [
+        18
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-078",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          18,
+          2
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          25,
+          1
+        ],
+        [
+          17,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 18,
+      "acceptedMoves": [
+        19
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-079",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          19,
+          2
+        ],
+        [
+          12,
+          1
+        ],
+        [
+          26,
+          1
+        ],
+        [
+          18,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 19,
+      "acceptedMoves": [
+        13,
+        20,
+        27
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-080",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          22,
+          2
+        ],
+        [
+          15,
+          1
+        ],
+        [
+          29,
+          1
+        ],
+        [
+          21,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 22,
+      "acceptedMoves": [
+        23
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-081",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          23,
+          2
+        ],
+        [
+          16,
+          1
+        ],
+        [
+          30,
+          1
+        ],
+        [
+          22,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 23,
+      "acceptedMoves": [
+        24
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-082",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          24,
+          2
+        ],
+        [
+          17,
+          1
+        ],
+        [
+          31,
+          1
+        ],
+        [
+          23,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 24,
+      "acceptedMoves": [
+        25
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-083",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          25,
+          2
+        ],
+        [
+          18,
+          1
+        ],
+        [
+          32,
+          1
+        ],
+        [
+          24,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 25,
+      "acceptedMoves": [
+        26
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-084",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          26,
+          2
+        ],
+        [
+          19,
+          1
+        ],
+        [
+          33,
+          1
+        ],
+        [
+          25,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 26,
+      "acceptedMoves": [
+        20,
+        27,
+        34
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-085",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          29,
+          2
+        ],
+        [
+          22,
+          1
+        ],
+        [
+          36,
+          1
+        ],
+        [
+          28,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 29,
+      "acceptedMoves": [
+        30
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-086",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          30,
+          2
+        ],
+        [
+          23,
+          1
+        ],
+        [
+          37,
+          1
+        ],
+        [
+          29,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 30,
+      "acceptedMoves": [
+        31
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-087",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          31,
+          2
+        ],
+        [
+          24,
+          1
+        ],
+        [
+          38,
+          1
+        ],
+        [
+          30,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 31,
+      "acceptedMoves": [
+        32
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-088",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          32,
+          2
+        ],
+        [
+          25,
+          1
+        ],
+        [
+          39,
+          1
+        ],
+        [
+          31,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 32,
+      "acceptedMoves": [
+        33
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-089",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          33,
+          2
+        ],
+        [
+          26,
+          1
+        ],
+        [
+          40,
+          1
+        ],
+        [
+          32,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 33,
+      "acceptedMoves": [
+        27,
+        34,
+        41
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-090",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          36,
+          2
+        ],
+        [
+          29,
+          1
+        ],
+        [
+          43,
+          1
+        ],
+        [
+          35,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 36,
+      "acceptedMoves": [
+        37
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-091",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          37,
+          2
+        ],
+        [
+          30,
+          1
+        ],
+        [
+          44,
+          1
+        ],
+        [
+          36,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 37,
+      "acceptedMoves": [
+        38
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-092",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          38,
+          2
+        ],
+        [
+          31,
+          1
+        ],
+        [
+          45,
+          1
+        ],
+        [
+          37,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 38,
+      "acceptedMoves": [
+        39
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-093",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          39,
+          2
+        ],
+        [
+          32,
+          1
+        ],
+        [
+          46,
+          1
+        ],
+        [
+          38,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 39,
+      "acceptedMoves": [
+        40
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-094",
+      "category": "capture",
+      "level": 2,
+      "size": 7,
+      "turn": 1,
+      "stones": [
+        [
+          40,
+          2
+        ],
+        [
+          33,
+          1
+        ],
+        [
+          47,
+          1
+        ],
+        [
+          39,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 40,
+      "acceptedMoves": [
+        34,
+        41,
+        48
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-095",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          10,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          19,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 10,
+      "acceptedMoves": [
+        11
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-096",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          11,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          20,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 11,
+      "acceptedMoves": [
+        12
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-097",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          12,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          21,
+          1
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 12,
+      "acceptedMoves": [
+        13
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-098",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          13,
+          2
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          22,
+          1
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 13,
+      "acceptedMoves": [
+        14
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-099",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          14,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          23,
+          1
+        ],
+        [
+          13,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 14,
+      "acceptedMoves": [
+        15
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-100",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          15,
+          2
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          24,
+          1
+        ],
+        [
+          14,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 15,
+      "acceptedMoves": [
+        16
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-101",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          16,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          25,
+          1
+        ],
+        [
+          15,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 16,
+      "acceptedMoves": [
+        8,
+        17,
+        26
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-102",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          19,
+          2
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          28,
+          1
+        ],
+        [
+          18,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 19,
+      "acceptedMoves": [
+        20
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-103",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          20,
+          2
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          29,
+          1
+        ],
+        [
+          19,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 20,
+      "acceptedMoves": [
+        21
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-104",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          21,
+          2
+        ],
+        [
+          12,
+          1
+        ],
+        [
+          30,
+          1
+        ],
+        [
+          20,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 21,
+      "acceptedMoves": [
+        22
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-105",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          22,
+          2
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          31,
+          1
+        ],
+        [
+          21,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 22,
+      "acceptedMoves": [
+        23
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-106",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          23,
+          2
+        ],
+        [
+          14,
+          1
+        ],
+        [
+          32,
+          1
+        ],
+        [
+          22,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 23,
+      "acceptedMoves": [
+        24
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-107",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          24,
+          2
+        ],
+        [
+          15,
+          1
+        ],
+        [
+          33,
+          1
+        ],
+        [
+          23,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 24,
+      "acceptedMoves": [
+        25
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-108",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          25,
+          2
+        ],
+        [
+          16,
+          1
+        ],
+        [
+          34,
+          1
+        ],
+        [
+          24,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 25,
+      "acceptedMoves": [
+        17,
+        26,
+        35
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-109",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          28,
+          2
+        ],
+        [
+          19,
+          1
+        ],
+        [
+          37,
+          1
+        ],
+        [
+          27,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 28,
+      "acceptedMoves": [
+        29
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-110",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          29,
+          2
+        ],
+        [
+          20,
+          1
+        ],
+        [
+          38,
+          1
+        ],
+        [
+          28,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 29,
+      "acceptedMoves": [
+        30
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-111",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          30,
+          2
+        ],
+        [
+          21,
+          1
+        ],
+        [
+          39,
+          1
+        ],
+        [
+          29,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 30,
+      "acceptedMoves": [
+        31
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-112",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          31,
+          2
+        ],
+        [
+          22,
+          1
+        ],
+        [
+          40,
+          1
+        ],
+        [
+          30,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 31,
+      "acceptedMoves": [
+        32
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-113",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          32,
+          2
+        ],
+        [
+          23,
+          1
+        ],
+        [
+          41,
+          1
+        ],
+        [
+          31,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 32,
+      "acceptedMoves": [
+        33
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-114",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          33,
+          2
+        ],
+        [
+          24,
+          1
+        ],
+        [
+          42,
+          1
+        ],
+        [
+          32,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 33,
+      "acceptedMoves": [
+        34
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-115",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          34,
+          2
+        ],
+        [
+          25,
+          1
+        ],
+        [
+          43,
+          1
+        ],
+        [
+          33,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 34,
+      "acceptedMoves": [
+        26,
+        35,
+        44
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-116",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          37,
+          2
+        ],
+        [
+          28,
+          1
+        ],
+        [
+          46,
+          1
+        ],
+        [
+          36,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 37,
+      "acceptedMoves": [
+        38
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-117",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          38,
+          2
+        ],
+        [
+          29,
+          1
+        ],
+        [
+          47,
+          1
+        ],
+        [
+          37,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 38,
+      "acceptedMoves": [
+        39
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-118",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          39,
+          2
+        ],
+        [
+          30,
+          1
+        ],
+        [
+          48,
+          1
+        ],
+        [
+          38,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 39,
+      "acceptedMoves": [
+        40
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-119",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          40,
+          2
+        ],
+        [
+          31,
+          1
+        ],
+        [
+          49,
+          1
+        ],
+        [
+          39,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 40,
+      "acceptedMoves": [
+        41
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-120",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          41,
+          2
+        ],
+        [
+          32,
+          1
+        ],
+        [
+          50,
+          1
+        ],
+        [
+          40,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 41,
+      "acceptedMoves": [
+        42
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-121",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          42,
+          2
+        ],
+        [
+          33,
+          1
+        ],
+        [
+          51,
+          1
+        ],
+        [
+          41,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 42,
+      "acceptedMoves": [
+        43
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-122",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          43,
+          2
+        ],
+        [
+          34,
+          1
+        ],
+        [
+          52,
+          1
+        ],
+        [
+          42,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 43,
+      "acceptedMoves": [
+        35,
+        44,
+        53
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-123",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          46,
+          2
+        ],
+        [
+          37,
+          1
+        ],
+        [
+          55,
+          1
+        ],
+        [
+          45,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 46,
+      "acceptedMoves": [
+        47
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-124",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          47,
+          2
+        ],
+        [
+          38,
+          1
+        ],
+        [
+          56,
+          1
+        ],
+        [
+          46,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 47,
+      "acceptedMoves": [
+        48
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-125",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          48,
+          2
+        ],
+        [
+          39,
+          1
+        ],
+        [
+          57,
+          1
+        ],
+        [
+          47,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 48,
+      "acceptedMoves": [
+        49
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-126",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          49,
+          2
+        ],
+        [
+          40,
+          1
+        ],
+        [
+          58,
+          1
+        ],
+        [
+          48,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 49,
+      "acceptedMoves": [
+        50
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-127",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          50,
+          2
+        ],
+        [
+          41,
+          1
+        ],
+        [
+          59,
+          1
+        ],
+        [
+          49,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 50,
+      "acceptedMoves": [
+        51
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-128",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          51,
+          2
+        ],
+        [
+          42,
+          1
+        ],
+        [
+          60,
+          1
+        ],
+        [
+          50,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 51,
+      "acceptedMoves": [
+        52
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-129",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          52,
+          2
+        ],
+        [
+          43,
+          1
+        ],
+        [
+          61,
+          1
+        ],
+        [
+          51,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 52,
+      "acceptedMoves": [
+        44,
+        53,
+        62
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-130",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          55,
+          2
+        ],
+        [
+          46,
+          1
+        ],
+        [
+          64,
+          1
+        ],
+        [
+          54,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 55,
+      "acceptedMoves": [
+        56
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-131",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          56,
+          2
+        ],
+        [
+          47,
+          1
+        ],
+        [
+          65,
+          1
+        ],
+        [
+          55,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 56,
+      "acceptedMoves": [
+        57
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-132",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          57,
+          2
+        ],
+        [
+          48,
+          1
+        ],
+        [
+          66,
+          1
+        ],
+        [
+          56,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 57,
+      "acceptedMoves": [
+        58
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-133",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          58,
+          2
+        ],
+        [
+          49,
+          1
+        ],
+        [
+          67,
+          1
+        ],
+        [
+          57,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 58,
+      "acceptedMoves": [
+        59
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-134",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          59,
+          2
+        ],
+        [
+          50,
+          1
+        ],
+        [
+          68,
+          1
+        ],
+        [
+          58,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 59,
+      "acceptedMoves": [
+        60
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-135",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          60,
+          2
+        ],
+        [
+          51,
+          1
+        ],
+        [
+          69,
+          1
+        ],
+        [
+          59,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 60,
+      "acceptedMoves": [
+        61
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-136",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          61,
+          2
+        ],
+        [
+          52,
+          1
+        ],
+        [
+          70,
+          1
+        ],
+        [
+          60,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 61,
+      "acceptedMoves": [
+        53,
+        62,
+        71
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-137",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          64,
+          2
+        ],
+        [
+          55,
+          1
+        ],
+        [
+          73,
+          1
+        ],
+        [
+          63,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 64,
+      "acceptedMoves": [
+        65
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-138",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          65,
+          2
+        ],
+        [
+          56,
+          1
+        ],
+        [
+          74,
+          1
+        ],
+        [
+          64,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 65,
+      "acceptedMoves": [
+        66
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-139",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          66,
+          2
+        ],
+        [
+          57,
+          1
+        ],
+        [
+          75,
+          1
+        ],
+        [
+          65,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 66,
+      "acceptedMoves": [
+        67
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-140",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          67,
+          2
+        ],
+        [
+          58,
+          1
+        ],
+        [
+          76,
+          1
+        ],
+        [
+          66,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 67,
+      "acceptedMoves": [
+        68
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-141",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          68,
+          2
+        ],
+        [
+          59,
+          1
+        ],
+        [
+          77,
+          1
+        ],
+        [
+          67,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 68,
+      "acceptedMoves": [
+        69
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-142",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          69,
+          2
+        ],
+        [
+          60,
+          1
+        ],
+        [
+          78,
+          1
+        ],
+        [
+          68,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 69,
+      "acceptedMoves": [
+        70
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-143",
+      "category": "capture",
+      "level": 2,
+      "size": 9,
+      "turn": 1,
+      "stones": [
+        [
+          70,
+          2
+        ],
+        [
+          61,
+          1
+        ],
+        [
+          79,
+          1
+        ],
+        [
+          69,
+          1
+        ]
+      ],
+      "goal": "capture_target",
+      "targetPoint": 70,
+      "acceptedMoves": [
+        62,
+        71,
+        80
+      ],
+      "prompt": "Capture the White stone!",
+      "hint": "Cover its last remaining liberty.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-144",
+      "category": "escape",
+      "level": 3,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          6,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          5,
+          2
+        ]
+      ],
+      "goal": "save_target",
+      "targetPoint": 6,
+      "acceptedMoves": [
+        7
+      ],
+      "prompt": "Your Black stone is in atari! Save it.",
+      "hint": "Extend to its last liberty to gain breathing room.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-145",
+      "category": "escape",
+      "level": 3,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          7,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          12,
+          2
+        ],
+        [
+          6,
+          2
+        ]
+      ],
+      "goal": "save_target",
+      "targetPoint": 7,
+      "acceptedMoves": [
+        8
+      ],
+      "prompt": "Your Black stone is in atari! Save it.",
+      "hint": "Extend to its last liberty to gain breathing room.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-146",
+      "category": "escape",
+      "level": 3,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          8,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          13,
+          2
+        ],
+        [
+          7,
+          2
+        ]
+      ],
+      "goal": "save_target",
+      "targetPoint": 8,
+      "acceptedMoves": [
+        9
+      ],
+      "prompt": "Your Black stone is in atari! Save it.",
+      "hint": "Extend to its last liberty to gain breathing room.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-147",
+      "category": "escape",
+      "level": 3,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          11,
+          1
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          16,
+          2
+        ],
+        [
+          10,
+          2
+        ]
+      ],
+      "goal": "save_target",
+      "targetPoint": 11,
+      "acceptedMoves": [
+        12
+      ],
+      "prompt": "Your Black stone is in atari! Save it.",
+      "hint": "Extend to its last liberty to gain breathing room.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-148",
+      "category": "escape",
+      "level": 3,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          12,
+          1
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          17,
+          2
+        ],
+        [
+          11,
+          2
+        ]
+      ],
+      "goal": "save_target",
+      "targetPoint": 12,
+      "acceptedMoves": [
+        13
+      ],
+      "prompt": "Your Black stone is in atari! Save it.",
+      "hint": "Extend to its last liberty to gain breathing room.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-149",
+      "category": "escape",
+      "level": 3,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          13,
+          1
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          18,
+          2
+        ],
+        [
+          12,
+          2
+        ]
+      ],
+      "goal": "save_target",
+      "targetPoint": 13,
+      "acceptedMoves": [
+        14
+      ],
+      "prompt": "Your Black stone is in atari! Save it.",
+      "hint": "Extend to its last liberty to gain breathing room.",
+      "source": "gtg-original-proved"
+    },
+    {
+      "id": "p-150",
+      "category": "escape",
+      "level": 3,
+      "size": 5,
+      "turn": 1,
+      "stones": [
+        [
+          16,
+          1
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          21,
+          2
+        ],
+        [
+          15,
+          2
+        ]
+      ],
+      "goal": "save_target",
+      "targetPoint": 16,
+      "acceptedMoves": [
+        17
+      ],
+      "prompt": "Your Black stone is in atari! Save it.",
+      "hint": "Extend to its last liberty to gain breathing room.",
+      "source": "gtg-original-proved"
+    }
+  ]
+}
