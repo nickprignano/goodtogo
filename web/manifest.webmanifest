@@ -1,0 +1,16 @@
+{
+  "name": "Good to Go",
+  "short_name": "Good to Go",
+  "description": "Learn to play Go, from your first capture to full games.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f4ee",
+  "theme_color": "#d9b37c",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
