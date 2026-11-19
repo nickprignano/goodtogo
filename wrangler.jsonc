@@ -12,6 +12,14 @@
       {
         "name": "BUDGET",
         "class_name": "BudgetDO"
+      },
+      {
+        "name": "REGISTRY",
+        "class_name": "RegistryDO"
+      },
+      {
+        "name": "ROOM",
+        "class_name": "RoomDO"
       }
     ]
   },
@@ -19,6 +27,10 @@
     {
       "tag": "v1",
       "new_sqlite_classes": ["BudgetDO"]
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["RegistryDO", "RoomDO"]
     }
   ]
 }

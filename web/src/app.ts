@@ -82,7 +82,7 @@ interface ProblemsPayload {
   problems: BankProblem[];
 }
 
-type Tab = 'learn' | 'problems' | 'computer' | 'shared';
+type Tab = 'learn' | 'problems' | 'computer' | 'shared' | 'friend';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -114,6 +114,35 @@ let scoreSummary = '';
 let coachNotes = '';
 let coachVoice: 'beginner' | 'club' = 'beginner';
 let showPrivacy = false;
+
+// Live room ("Play a friend") state
+interface RemoteRoomState {
+  code: string;
+  size: number;
+  handicap: number;
+  komiX2: number;
+  clocksOn: boolean;
+  phase: 'waiting' | 'playing' | 'marking' | 'finished' | 'expired';
+  moves: number[];
+  turn: number;
+  winner: number;
+  blackMs: number;
+  whiteMs: number;
+  deadMarks: number[];
+  accept: [boolean, boolean];
+  noDeadMarksNextPass: boolean;
+  score: { black: number; white: number } | null;
+}
+
+let roomJoinCode = '';
+let roomSeat: 1 | 2 | 0 = 0;
+let roomToken = '';
+let roomState: RemoteRoomState | null = null;
+let roomSocket: WebSocket | null = null;
+let roomStatus = '';
+let roomSizeOpt = 9;
+let roomHandicapOpt = 0;
+let roomClocksOpt = false;
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -576,7 +605,7 @@ function render(): void {
   brand.append(el('span', 'brand-title', 'Good to Go'), el('span', 'brand-sub', 'go.prignano.ai'));
 
   const nav = el('nav', 'tabs');
-  (['learn', 'problems', 'computer', 'shared'] as Tab[]).forEach((t) => {
+  (['learn', 'problems', 'computer', 'shared', 'friend'] as Tab[]).forEach((t) => {
     const label =
       t === 'learn'
         ? 'Learn'
@@ -584,7 +613,9 @@ function render(): void {
         ? 'Problems'
         : t === 'computer'
         ? 'Play Computer'
-        : 'Two on One Device';
+        : t === 'shared'
+        ? 'Two on One Device'
+        : 'Play a Friend';
     const btn = el('button', `tab ${activeTab === t ? 'active' : ''}`, label);
     btn.addEventListener('click', () => {
       clearDemoTimer();
@@ -665,8 +696,10 @@ function render(): void {
     main.appendChild(renderProblems());
   } else if (activeTab === 'computer') {
     main.appendChild(renderPlay('computer'));
-  } else {
+  } else if (activeTab === 'shared') {
     main.appendChild(renderPlay('shared'));
+  } else {
+    main.appendChild(renderFriendRoom());
   }
   shell.appendChild(main);
 
@@ -1111,6 +1144,238 @@ function renderPlay(mode: 'computer' | 'shared'): HTMLElement {
   return layout;
 }
 
+function connectRoomSocket(code: string, token: string): void {
+  if (roomSocket) {
+    roomSocket.close();
+    roomSocket = null;
+  }
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const ws = new WebSocket(`${proto}//${location.host}/api/rooms/${code}/ws?token=${encodeURIComponent(token)}`);
+  roomSocket = ws;
+  ws.onmessage = (ev) => {
+    try {
+      const msg = JSON.parse(String(ev.data)) as { type: string; seat?: 1 | 2; state?: RemoteRoomState; reason?: string };
+      if (msg.type === 'state' && msg.state) {
+        if (msg.seat) roomSeat = msg.seat;
+        roomState = msg.state;
+        engine.newGame(roomState.size, roomState.komiX2, 0);
+        if (roomState.handicap >= 2) engine.setupHandicap(roomState.handicap);
+        for (const mv of roomState.moves) engine.play(mv);
+        roomStatus =
+          roomState.phase === 'waiting'
+            ? `Waiting for friend… Share code ${roomState.code}`
+            : roomState.phase === 'marking'
+            ? 'Double pass! Tap dead stones to mark, then both press Accept.'
+            : roomState.phase === 'finished'
+            ? roomState.score
+              ? `Game over — Black ${roomState.score.black}, White ${roomState.score.white}`
+              : `Game over — ${roomState.winner === BLACK ? 'Black' : 'White'} wins`
+            : roomState.turn === roomSeat
+            ? 'Your turn.'
+            : "Friend's turn.";
+        render();
+      } else if (msg.type === 'error' && msg.reason) {
+        roomStatus = msg.reason;
+        render();
+      }
+    } catch {
+      // Ignore malformed message
+    }
+  };
+  ws.onclose = () => {
+    if (roomState && roomState.phase !== 'finished') {
+      roomStatus = 'Disconnected — reconnect with the same code or wait.';
+      render();
+    }
+  };
+}
+
+function renderFriendRoom(): HTMLElement {
+  const layout = el('div', 'play-layout');
+
+  if (!roomState) {
+    const createCard = el('div', 'card side-panel');
+    createCard.append(
+      el('h2', '', 'Create a room'),
+      el('p', 'muted', 'No names, no chat, no sign-in. Hints and the coach are off in rooms (honour-based).')
+    );
+
+    const sizeRow = el('div', 'presets');
+    for (const sz of [9, 13, 19]) {
+      const b = el('button', `btn secondary small ${roomSizeOpt === sz ? 'primary' : ''}`, `${sz}x${sz}`);
+      b.addEventListener('click', () => {
+        roomSizeOpt = sz;
+        render();
+      });
+      sizeRow.appendChild(b);
+    }
+
+    const hcRow = el('div', 'presets');
+    for (const hc of [0, 2, 3, 4, 5, 9]) {
+      const b = el('button', `btn secondary small ${roomHandicapOpt === hc ? 'primary' : ''}`, hc === 0 ? 'Even (7.5)' : `${hc}H (0.5)`);
+      b.addEventListener('click', () => {
+        roomHandicapOpt = hc;
+        render();
+      });
+      hcRow.appendChild(b);
+    }
+
+    const clockBtn = el('button', `pill ${roomClocksOpt ? 'on' : ''}`, roomClocksOpt ? 'Clocks: 10m + 20s' : 'Clocks: OFF (5m/move)');
+    clockBtn.addEventListener('click', () => {
+      roomClocksOpt = !roomClocksOpt;
+      render();
+    });
+
+    const createBtn = el('button', 'btn primary', 'Create room');
+    createBtn.addEventListener('click', async () => {
+      roomStatus = 'Creating room…';
+      render();
+      try {
+        const res = await fetch('./api/rooms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ size: roomSizeOpt, handicap: roomHandicapOpt, clocksOn: roomClocksOpt }),
+        });
+        const data = (await res.json()) as { ok: boolean; seat?: 1; token?: string; state?: RemoteRoomState; reason?: string };
+        if (data.ok && data.token && data.state) {
+          roomSeat = 1;
+          roomToken = data.token;
+          roomState = data.state;
+          connectRoomSocket(roomState.code, roomToken);
+        } else {
+          roomStatus = data.reason ?? 'Could not create room.';
+          render();
+        }
+      } catch {
+        roomStatus = 'Rooms require the Cloudflare Worker.';
+        render();
+      }
+    });
+
+    createCard.append(sizeRow, hcRow, clockBtn, createBtn);
+
+    const joinCard = el('div', 'card side-panel');
+    joinCard.append(el('h2', '', 'Join a room'));
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.maxLength = 6;
+    input.placeholder = '6-char code';
+    input.value = roomJoinCode;
+    input.addEventListener('input', () => {
+      roomJoinCode = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      input.value = roomJoinCode;
+    });
+
+    const joinBtn = el('button', 'btn primary', 'Join');
+    joinBtn.addEventListener('click', async () => {
+      if (roomJoinCode.length !== 6) {
+        roomStatus = 'Enter a 6-character room code.';
+        render();
+        return;
+      }
+      roomStatus = 'Joining…';
+      render();
+      try {
+        const res = await fetch(`./api/rooms/${roomJoinCode}/join`, { method: 'POST' });
+        const data = (await res.json()) as { ok: boolean; seat?: 2; token?: string; state?: RemoteRoomState; reason?: string };
+        if (data.ok && data.token && data.state) {
+          roomSeat = 2;
+          roomToken = data.token;
+          roomState = data.state;
+          connectRoomSocket(roomState.code, roomToken);
+        } else {
+          roomStatus = data.reason ?? 'Could not join room.';
+          render();
+        }
+      } catch {
+        roomStatus = 'Could not reach room.';
+        render();
+      }
+    });
+
+    joinCard.append(input, joinBtn, el('div', 'muted', roomStatus));
+    layout.append(createCard, joinCard);
+    return layout;
+  }
+
+  // Active room board
+  const boardBox = el('div', 'board-box');
+  const deadArr = new Uint8Array(roomState.size * roomState.size);
+  for (const idx of roomState.deadMarks) deadArr[idx] = 1;
+
+  renderBoard(boardBox, {
+    size: roomState.size,
+    grid: engine.getGrid(),
+    deadPoints: roomState.phase === 'marking' ? deadArr : null,
+    lastMove: engine.lastMove,
+    ghostPoint,
+    showHelpers: false, // Hints off in rooms
+    highContrast: state.highContrast,
+    disabled: roomState.phase === 'finished' || roomState.phase === 'waiting',
+    onSelectPoint: (idx) => {
+      if (!roomSocket || !roomState) return;
+      if (roomState.phase === 'marking') {
+        roomSocket.send(JSON.stringify({ type: 'toggle_mark', idx }));
+        return;
+      }
+      if (roomState.phase === 'playing') {
+        if (roomState.size >= 13 && ghostPoint !== idx) {
+          if (engine.isLegal(idx) === PLAY_OK) {
+            ghostPoint = idx;
+            render();
+            return;
+          }
+        }
+        ghostPoint = -1;
+        roomSocket.send(JSON.stringify({ type: 'play', idx }));
+      }
+    },
+  });
+
+  const side = el('div', 'side-panel card');
+  const shareUrl = `${location.origin}/#room=${roomState.code}`;
+  side.append(
+    el('h2', '', `Room ${roomState.code} (You are ${roomSeat === 1 ? 'Black' : 'White'})`),
+    el('div', 'muted', `Share link: ${shareUrl}`),
+    el('div', 'feedback-box', roomStatus)
+  );
+
+  if (roomState.clocksOn) {
+    const fmt = (ms: number) => `${Math.floor(ms / 60000)}:${String(Math.floor((ms % 60000) / 1000)).padStart(2, '0')}`;
+    side.append(el('div', 'score-row', `Clocks — Black ${fmt(roomState.blackMs)} · White ${fmt(roomState.whiteMs)}`));
+  }
+
+  const actions = el('div', 'actions');
+  if (roomState.phase === 'playing') {
+    const passBtn = el('button', 'btn secondary', 'Pass');
+    passBtn.disabled = roomState.turn !== roomSeat;
+    passBtn.addEventListener('click', () => roomSocket?.send(JSON.stringify({ type: 'play', idx: PASS_POINT })));
+    actions.appendChild(passBtn);
+  } else if (roomState.phase === 'marking') {
+    const marksHash = [...roomState.deadMarks].sort((a, b) => a - b).join(',');
+    const accBtn = el('button', 'btn primary', roomState.accept[roomSeat - 1] ? 'Accepted ✓' : 'Accept dead stones');
+    accBtn.addEventListener('click', () => roomSocket?.send(JSON.stringify({ type: 'accept_marks', hash: marksHash })));
+    const disBtn = el('button', 'btn secondary', 'Disagree (resume)');
+    disBtn.addEventListener('click', () => roomSocket?.send(JSON.stringify({ type: 'disagree_marks' })));
+    actions.append(accBtn, disBtn);
+  }
+
+  const leaveBtn = el('button', 'btn secondary', 'Leave room');
+  leaveBtn.addEventListener('click', () => {
+    roomSocket?.close();
+    roomSocket = null;
+    roomState = null;
+    roomSeat = 0;
+    roomToken = '';
+    render();
+  });
+  actions.appendChild(leaveBtn);
+  side.appendChild(actions);
+
+  layout.append(boardBox, side);
+  return layout;
+}
+
 async function boot(): Promise<void> {
   const [eng, lRes, pRes] = await Promise.all([
     RulesEngine.fromUrl('./rules.wasm'),
@@ -1123,6 +1388,12 @@ async function boot(): Promise<void> {
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+
+  const hashMatch = location.hash.match(/room=([A-Z0-9]{6})/i);
+  if (hashMatch) {
+    roomJoinCode = hashMatch[1].toUpperCase();
+    activeTab = 'friend';
   }
 
   render();

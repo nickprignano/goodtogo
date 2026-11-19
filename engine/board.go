@@ -477,6 +477,15 @@ func (b *Board) finishByScore() {
 	}
 }
 
+// ResumeAfterPass clears a double-pass Winner so play can resume after a marking disagreement.
+func (b *Board) ResumeAfterPass(nextTurn uint8) {
+	b.Winner = Empty
+	b.Passes = 0
+	if nextTurn == Black || nextTurn == White {
+		b.Turn = nextTurn
+	}
+}
+
 // IsOwnEye returns true if idx is an empty point whose orthogonal neighbors
 // are all friendly stones (and for a non-edge/corner, most diagonals are friendly).
 func (b *Board) IsOwnEye(idx int, color uint8) bool {

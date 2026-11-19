@@ -180,3 +180,9 @@ func gtg_detect_coach_tags(idx int32) uint32 {
 	ensureBoard()
 	return engine.DetectCoachTags(board, int(idx))
 }
+
+//export gtg_resume_after_pass
+func gtg_resume_after_pass(nextTurn int32) {
+	ensureBoard()
+	board.ResumeAfterPass(uint8(nextTurn))
+}

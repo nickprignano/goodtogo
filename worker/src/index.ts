@@ -3,10 +3,20 @@ import problemsJson from '../../web/data/problems.json';
 import { RulesEngine, PLAY_OK, tagsToConcepts } from '../../web/src/wasm.js';
 import { filterCoachReply } from './filter.js';
 export { BudgetDO } from './budget.js';
+export { RegistryDO } from './registry.js';
+export { RoomDO } from './room.js';
 
 interface Env {
   ASSETS: { fetch(req: Request): Promise<Response> };
   BUDGET: {
+    idFromName(name: string): unknown;
+    get(id: unknown): { fetch(req: Request): Promise<Response> };
+  };
+  REGISTRY: {
+    idFromName(name: string): unknown;
+    get(id: unknown): { fetch(req: Request): Promise<Response> };
+  };
+  ROOM: {
     idFromName(name: string): unknown;
     get(id: unknown): { fetch(req: Request): Promise<Response> };
   };
@@ -94,6 +104,58 @@ async function callGemini(
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname === '/api/rooms' && request.method === 'POST') {
+      const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+      const ipHash = await sha256Hex(ip);
+      const reg = env.REGISTRY.get(env.REGISTRY.idFromName('global-registry'));
+      const regRes = await reg.fetch(
+        new Request('https://registry/create', { method: 'POST', body: JSON.stringify({ ipHash }) })
+      );
+      const regData = (await regRes.json()) as { ok: boolean; code?: string; reason?: string };
+      if (!regRes.ok || !regData.ok || !regData.code) {
+        return Response.json(regData, { status: regRes.status });
+      }
+      const body = (await request.json()) as { size?: number; handicap?: number; clocksOn?: boolean };
+      const creatorToken = crypto.randomUUID();
+      const room = env.ROOM.get(env.ROOM.idFromName(regData.code));
+      return room.fetch(
+        new Request('https://room/init', {
+          method: 'POST',
+          body: JSON.stringify({
+            cfg: {
+              code: regData.code,
+              size: body.size ?? 9,
+              handicap: body.handicap ?? 0,
+              clocksOn: Boolean(body.clocksOn),
+            },
+            creatorToken,
+          }),
+        })
+      );
+    }
+
+    const roomMatch = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]{6})(?:\/(join|ws))?$/i);
+    if (roomMatch) {
+      const code = roomMatch[1].toUpperCase();
+      const sub = roomMatch[2] ?? '';
+      const reg = env.REGISTRY.get(env.REGISTRY.idFromName('global-registry'));
+      const lookup = await reg.fetch(new Request(`https://registry/lookup?code=${code}`));
+      const { exists } = (await lookup.json()) as { exists: boolean };
+      if (!exists) {
+        return Response.json({ ok: false, reason: 'room_not_found' }, { status: 404 });
+      }
+      const room = env.ROOM.get(env.ROOM.idFromName(code));
+      if (sub === 'join' && request.method === 'POST') {
+        return room.fetch(new Request('https://room/join', { method: 'POST' }));
+      }
+      if (sub === 'ws') {
+        const wsUrl = new URL('https://room/ws');
+        wsUrl.search = url.search;
+        return room.fetch(new Request(wsUrl.toString(), request));
+      }
+      return Response.json({ ok: true, code });
+    }
+
     if (!url.pathname.startsWith('/api/coach/')) {
       return env.ASSETS.fetch(request);
     }

@@ -65,6 +65,7 @@ export interface RulesExports {
   gtg_dead_ptr(): number;
   gtg_score_with_dead_black_x2(): number;
   gtg_detect_coach_tags(idx: number): number;
+  gtg_resume_after_pass(nextTurn: number): void;
 }
 
 export class RulesEngine {
@@ -215,6 +216,10 @@ export class RulesEngine {
 
   detectCoachTags(idx: number): number {
     return this.e.gtg_detect_coach_tags(idx);
+  }
+
+  resumeAfterPass(nextTurn: number): void {
+    this.e.gtg_resume_after_pass(nextTurn);
   }
 }
 
