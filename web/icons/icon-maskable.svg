@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="mask-title mask-desc">
+  <title id="mask-title">Good to Go — Maskable PWA Icon</title>
+  <desc id="mask-desc">Full-bleed kaya wood maskable app icon with all Go board lines, stones, and open liberty mark centered strictly within the 80% W3C safe circle.</desc>
+  <defs>
+    <radialGradient id="mask-kaya" cx="35%" cy="28%" r="78%">
+      <stop offset="0%" stop-color="#E6C37E"/>
+      <stop offset="65%" stop-color="#DCB56E"/>
+      <stop offset="100%" stop-color="#CFA459"/>
+    </radialGradient>
+    <radialGradient id="mask-black" cx="34%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#3A3F4B"/>
+      <stop offset="42%" stop-color="#1E2127"/>
+      <stop offset="100%" stop-color="#121417"/>
+    </radialGradient>
+    <radialGradient id="mask-white" cx="34%" cy="28%" r="72%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="68%" stop-color="#FAF8F2"/>
+      <stop offset="100%" stop-color="#EAE4D7"/>
+    </radialGradient>
+  </defs>
+  <!-- Full-Bleed Maskable Surface -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#mask-kaya)"/>
+  <!-- 2x2 Goban Lacquer Grid -->
+  <g stroke="#382812" stroke-width="14" stroke-linecap="round">
+    <line x1="124" y1="188" x2="388" y2="188"/>
+    <line x1="124" y1="324" x2="388" y2="324"/>
+    <line x1="188" y1="124" x2="188" y2="388"/>
+    <line x1="324" y1="124" x2="324" y2="388"/>
+  </g>
+
+  <!-- Subtle Tactile Drop Shadows -->
+  <g fill="#2A1C0B" fill-opacity="0.22">
+    <circle cx="191" cy="194" r="53"/>
+    <circle cx="327" cy="330" r="53"/>
+    <circle cx="191" cy="330" r="53"/>
+  </g>
+
+  <!-- [0,0] Nachi Slate Black Stone -->
+  <circle cx="188" cy="188" r="53" fill="url(#mask-black)" stroke="#101215" stroke-width="2"/>
+
+  <!-- [1,1] Nachi Slate Black Stone (Diagonal Kosumi) -->
+  <circle cx="324" cy="324" r="53" fill="url(#mask-black)" stroke="#101215" stroke-width="2"/>
+
+  <!-- [0,1] Hamaguri Clamshell White Stone -->
+  <circle cx="188" cy="324" r="53" fill="url(#mask-white)" stroke="#6E5839" stroke-width="3"/>
+
+  <!-- [1,0] Open Intersection — Hanko Seal / Ready Liberty Point -->
+  <circle cx="324" cy="188" r="30" fill="#FAF8F2"/>
+  <circle cx="324" cy="188" r="21" fill="#C2361E"/>
+</svg>

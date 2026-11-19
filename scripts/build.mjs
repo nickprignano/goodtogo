@@ -62,21 +62,25 @@ await esbuild.build({
 });
 
 // 3. Copy static assets
-for (const file of ['index.html', 'styles.css', 'manifest.webmanifest']) {
+for (const file of ['index.html', 'tokens.css', 'styles.css', 'manifest.webmanifest']) {
   cpSync(join(root, 'web', file), join(distDir, file));
 }
 cpSync(join(root, 'web', 'icons'), join(distDir, 'icons'), { recursive: true });
+cpSync(join(root, 'web', 'social'), join(distDir, 'social'), { recursive: true });
 cpSync(join(root, 'web', 'data'), join(distDir, 'data'), { recursive: true });
 
 // 4. Generate cache-first service worker with content hash
 const assets = [
   './',
   './index.html',
+  './tokens.css',
   './styles.css',
   './app.js',
   './rules.wasm',
   './manifest.webmanifest',
-  './icons/icon.svg',
+  './icons/favicon.svg',
+  './icons/logo-mark.svg',
+  './icons/icon-maskable.svg',
   './data/lessons.json',
   './data/problems.json',
 ];
