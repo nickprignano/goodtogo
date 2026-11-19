@@ -3,7 +3,7 @@ package main
 import (
 	"unsafe"
 
-	"github.com/nickprignano/goodtogo/engine"
+	"github.com/quiet-arcades/goodtogo/engine"
 )
 
 var (

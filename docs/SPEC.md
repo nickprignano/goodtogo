@@ -33,7 +33,7 @@ allowlisted adults under a hard spend cap.
 | # | Question | Answer |
 | --- | --- | --- |
 | 1 | What to build | A Go game like Chess and Cards, with learning to play Go as the main objective (owner, 2026-11-11) |
-| 2 | Name | **Good to Go**, at `go.prignano.ai` (moved from `gtg.prignano.ai`, owner, 2026-11-13), repo `nickprignano/goodtogo` (owner, 2026-11-11) |
+| 2 | Name | **Good to Go**, at `go.prignano.ai` (moved from `gtg.prignano.ai`, owner, 2026-11-13), repo `quiet-arcades/goodtogo` (moved from `nickprignano/goodtogo`, 2026-11-19) |
 | 5 | Languages | Game logic in Go, compiled with TinyGo to WebAssembly; the board, app and Worker in TypeScript (owner, 2026-11-13) |
 | 3 | Age rating | All ages for the app; the Claude coach for allowlisted adults, children using it on a parent's sign-in (owner, 2026-11-18) |
 | 4 | Reviews | Fable red team (done, 2026-11-11) and Gemini outside review (done, 2026-11-18) |

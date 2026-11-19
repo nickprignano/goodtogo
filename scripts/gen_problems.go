@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/nickprignano/goodtogo/engine"
+	"github.com/quiet-arcades/goodtogo/engine"
 )
 
 type Problem struct {
