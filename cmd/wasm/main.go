@@ -11,6 +11,8 @@ var (
 	gridBuf     [engine.MaxPoints]uint8
 	libsBuf     [engine.MaxPoints]uint8
 	terrBuf     [engine.MaxPoints]uint8
+	ownBuf      [engine.MaxPoints]int8
+	deadBuf     [engine.MaxPoints]uint8
 	lastBlackX2 int32
 	lastWhiteX2 int32
 )
@@ -131,4 +133,44 @@ func gtg_score_white_x2() int32 {
 //export gtg_terr_ptr
 func gtg_terr_ptr() uintptr {
 	return uintptr(unsafe.Pointer(&terrBuf[0]))
+}
+
+//export gtg_setup_handicap
+func gtg_setup_handicap(stones int32) {
+	ensureBoard()
+	board.SetupHandicap(int(stones))
+}
+
+//export gtg_choose_move_gtg
+func gtg_choose_move_gtg(gtgLevel int32, seed uint32) int32 {
+	ensureBoard()
+	return int32(engine.ChooseMoveGTG(board, int(gtgLevel), uint64(seed)))
+}
+
+//export gtg_estimate_ownership
+func gtg_estimate_ownership(playouts int32, seed uint32) int32 {
+	ensureBoard()
+	leadX2, own := engine.EstimateOwnership(board, int(playouts), uint64(seed))
+	ownBuf = own
+	return int32(leadX2)
+}
+
+//export gtg_ownership_ptr
+func gtg_ownership_ptr() uintptr {
+	return uintptr(unsafe.Pointer(&ownBuf[0]))
+}
+
+//export gtg_dead_ptr
+func gtg_dead_ptr() uintptr {
+	return uintptr(unsafe.Pointer(&deadBuf[0]))
+}
+
+//export gtg_score_with_dead_black_x2
+func gtg_score_with_dead_black_x2() int32 {
+	ensureBoard()
+	bx2, wx2, terr := board.AreaScoreWithDead(&deadBuf)
+	lastBlackX2 = int32(bx2)
+	lastWhiteX2 = int32(wx2)
+	terrBuf = terr
+	return lastBlackX2
 }

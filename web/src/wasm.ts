@@ -56,6 +56,12 @@ export interface RulesExports {
   gtg_score_black_x2(): number;
   gtg_score_white_x2(): number;
   gtg_terr_ptr(): number;
+  gtg_setup_handicap(stones: number): void;
+  gtg_choose_move_gtg(gtgLevel: number, seed: number): number;
+  gtg_estimate_ownership(playouts: number, seed: number): number;
+  gtg_ownership_ptr(): number;
+  gtg_dead_ptr(): number;
+  gtg_score_with_dead_black_x2(): number;
 }
 
 export class RulesEngine {
@@ -168,6 +174,34 @@ export class RulesEngine {
     const ptr = this.e.gtg_terr_ptr();
     const n = this.size * this.size;
     const territory = new Uint8Array(this.e.memory.buffer, ptr, n).slice();
+    return { black: bx2 / 2, white: wx2 / 2, territory };
+  }
+
+  setupHandicap(stones: number): void {
+    this.e.gtg_setup_handicap(stones);
+  }
+
+  chooseMoveGTG(gtgLevel: number, seed = (Date.now() >>> 0) || 1): number {
+    return this.e.gtg_choose_move_gtg(gtgLevel, seed >>> 0);
+  }
+
+  estimateOwnership(playouts = 48, seed = (Date.now() >>> 0) || 1): { lead: number; ownership: Int8Array } {
+    const leadX2 = this.e.gtg_estimate_ownership(playouts, seed >>> 0);
+    const ptr = this.e.gtg_ownership_ptr();
+    const n = this.size * this.size;
+    const ownership = new Int8Array(this.e.memory.buffer, ptr, n).slice();
+    return { lead: leadX2 / 2, ownership };
+  }
+
+  scoreWithDead(dead: Uint8Array): { black: number; white: number; territory: Uint8Array } {
+    const ptr = this.e.gtg_dead_ptr();
+    const n = this.size * this.size;
+    const view = new Uint8Array(this.e.memory.buffer, ptr, n);
+    view.set(dead.subarray(0, n));
+    const bx2 = this.e.gtg_score_with_dead_black_x2();
+    const wx2 = this.e.gtg_score_white_x2();
+    const tPtr = this.e.gtg_terr_ptr();
+    const territory = new Uint8Array(this.e.memory.buffer, tPtr, n).slice();
     return { black: bx2 / 2, white: wx2 / 2, territory };
   }
 }

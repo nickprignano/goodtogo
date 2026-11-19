@@ -5,6 +5,7 @@ export interface BoardRenderOptions {
   grid: Uint8Array;
   liberties?: Uint8Array;
   territory?: Uint8Array | null;
+  deadPoints?: Uint8Array | null;
   lastMove: number;
   ghostPoint: number;
   pulsePoints?: number[];
@@ -34,7 +35,7 @@ function starPoints(size: number): number[] {
 }
 
 export function renderBoard(container: HTMLElement, opts: BoardRenderOptions): void {
-  const { size, grid, liberties, territory, lastMove, ghostPoint, pulsePoints = [], showHelpers, highContrast, disabled, onSelectPoint } = opts;
+  const { size, grid, liberties, territory, deadPoints, lastMove, ghostPoint, pulsePoints = [], showHelpers, highContrast, disabled, onSelectPoint } = opts;
 
   const pad = 28;
   const cell = 36;
@@ -128,12 +129,30 @@ export function renderBoard(container: HTMLElement, opts: BoardRenderOptions): v
 
     // Stone
     if (stone !== EMPTY) {
+      const isDead = deadPoints ? deadPoints[idx] !== 0 : false;
       const st = document.createElementNS(SVG_NS, 'circle');
       st.setAttribute('cx', String(cx));
       st.setAttribute('cy', String(cy));
       st.setAttribute('r', String(cell * 0.44));
-      st.setAttribute('class', stone === BLACK ? 'stone-black' : 'stone-white');
+      st.setAttribute('class', `${stone === BLACK ? 'stone-black' : 'stone-white'}${isDead ? ' dead-stone' : ''}`);
       svg.appendChild(st);
+
+      if (isDead) {
+        const d = cell * 0.22;
+        const x1 = document.createElementNS(SVG_NS, 'line');
+        x1.setAttribute('x1', String(cx - d));
+        x1.setAttribute('y1', String(cy - d));
+        x1.setAttribute('x2', String(cx + d));
+        x1.setAttribute('y2', String(cy + d));
+        x1.setAttribute('class', 'dead-mark');
+        const x2 = document.createElementNS(SVG_NS, 'line');
+        x2.setAttribute('x1', String(cx + d));
+        x2.setAttribute('y1', String(cy - d));
+        x2.setAttribute('x2', String(cx - d));
+        x2.setAttribute('y2', String(cy + d));
+        x2.setAttribute('class', 'dead-mark');
+        svg.append(x1, x2);
+      }
 
       // Soft highlight
       const hl = document.createElementNS(SVG_NS, 'circle');

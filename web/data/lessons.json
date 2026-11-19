@@ -17,6 +17,24 @@
       "title": "Stage 3: Your first real game",
       "subtitle": "Passing, territory, area counting, and komi",
       "gate": "Finish and count a full 7x7 game!"
+    },
+    {
+      "id": 4,
+      "title": "Stage 4: Classic tactics",
+      "subtitle": "False eyes, ladders, nets, snapbacks, throw-ins, and ko",
+      "gate": "Optional checks — sharpen your reading as you play."
+    },
+    {
+      "id": 5,
+      "title": "Stage 5: Playing well on 9x9",
+      "subtitle": "Corners first, extending, invading vs reducing, reading ahead",
+      "gate": "Beat GTG Level 5 on 9x9."
+    },
+    {
+      "id": 6,
+      "title": "Stage 6: Bigger boards (13x13)",
+      "subtitle": "Opening on 13x13, star points, corner shapes, joining fights",
+      "gate": "Finish a full 13x13 game!"
     }
   ],
   "lessons": [
@@ -377,6 +395,222 @@
           "acceptedMoves": [-1],
           "prompt": "Both sides' territory is finished. Tap Pass to end the game and count!",
           "hint": "Use the Pass button below the board."
+        }
+      ]
+    },
+    {
+      "id": "s4-false-eye",
+      "stage": 4,
+      "title": "False eyes",
+      "summary": "An eye with enemy stones on its corners can be poked out — it is a false eye.",
+      "demo": {
+        "size": 5,
+        "stones": [[1, 2], [5, 2], [6, 1], [2, 1], [10, 1]],
+        "moves": [{ "idx": 0, "color": 1 }],
+        "caption": "Watch: White's corner spot looks like an eye, but Black captures at A5!"
+      },
+      "problems": [
+        {
+          "size": 5,
+          "turn": 1,
+          "stones": [[1, 2], [5, 2], [6, 1], [2, 1], [10, 1]],
+          "goal": "capture_target",
+          "targetPoint": 1,
+          "acceptedMoves": [0],
+          "prompt": "Break the false eye and capture White!",
+          "hint": "Play right inside the corner."
+        }
+      ]
+    },
+    {
+      "id": "s4-ladders",
+      "stage": 4,
+      "title": "Ladders",
+      "summary": "Chase an enemy stone in a zig-zag across the board until it hits the edge.",
+      "demo": {
+        "size": 7,
+        "stones": [[24, 2], [17, 1], [23, 1]],
+        "moves": [
+          { "idx": 25, "color": 1 },
+          { "idx": 31, "color": 2 },
+          { "idx": 30, "color": 1 }
+        ],
+        "caption": "Watch: Black keeps White on 1 or 2 liberties, herding it toward the edge."
+      },
+      "problems": [
+        {
+          "size": 7,
+          "turn": 1,
+          "stones": [[10, 2], [3, 1], [9, 1], [17, 1]],
+          "goal": "capture_target",
+          "targetPoint": 10,
+          "acceptedMoves": [11],
+          "prompt": "Put White in atari toward the top edge to capture it!",
+          "hint": "Play to the right of the White stone."
+        }
+      ]
+    },
+    {
+      "id": "s4-nets",
+      "stage": 4,
+      "title": "Nets",
+      "summary": "Surround from a step away so the enemy stone has no escape route.",
+      "demo": {
+        "size": 7,
+        "stones": [[24, 2], [17, 1], [23, 1], [32, 1]],
+        "moves": [{ "idx": 26, "color": 1 }],
+        "caption": "Watch: instead of touching, Black casts a loose net around White."
+      },
+      "problems": [
+        {
+          "size": 7,
+          "turn": 1,
+          "stones": [[17, 2], [10, 1], [16, 1], [25, 1]],
+          "goal": "play",
+          "targetPoint": 19,
+          "acceptedMoves": [19, 18],
+          "prompt": "Close the net around the White stone!",
+          "hint": "Block White's escape to the right."
+        }
+      ]
+    },
+    {
+      "id": "s4-snapback",
+      "stage": 4,
+      "title": "Snapbacks and throw-ins",
+      "summary": "Sometimes sacrificing one stone lets you immediately capture a bigger group back.",
+      "demo": {
+        "size": 5,
+        "stones": [
+          [2, 2], [5, 2], [6, 2], [7, 2],
+          [3, 1], [8, 1], [10, 1], [11, 1], [12, 1]
+        ],
+        "moves": [
+          { "idx": 1, "color": 1 },
+          { "idx": 0, "color": 2 },
+          { "idx": 1, "color": 1 }
+        ],
+        "caption": "Watch: Black throws in at B5, White captures at A5, and Black snaps back at B5 to capture 5 stones!"
+      },
+      "problems": [
+        {
+          "size": 5,
+          "turn": 1,
+          "stones": [
+            [2, 2], [5, 2], [6, 2], [7, 2],
+            [3, 1], [8, 1], [10, 1], [11, 1], [12, 1]
+          ],
+          "goal": "capture_target",
+          "targetPoint": 2,
+          "acceptedMoves": [1],
+          "prompt": "Throw in to set up a snapback and capture the White group!",
+          "hint": "Play at B5 — if White captures at A5, you can immediately snap back at B5."
+        }
+      ]
+    },
+    {
+      "id": "s4-ko",
+      "stage": 4,
+      "title": "Ko and the ko rule",
+      "summary": "You cannot immediately recapture a ko — play a threat elsewhere first.",
+      "demo": {
+        "size": 5,
+        "stones": [[1, 1], [5, 1], [11, 1], [7, 1], [2, 2], [8, 2], [12, 2]],
+        "moves": [{ "idx": 6, "color": 2 }],
+        "caption": "Watch: White captures at B4. Black must play elsewhere before recapturing at C4."
+      },
+      "problems": [
+        {
+          "size": 5,
+          "turn": 2,
+          "stones": [[1, 1], [5, 1], [11, 1], [7, 1], [2, 2], [8, 2], [12, 2]],
+          "goal": "capture_target",
+          "targetPoint": 7,
+          "acceptedMoves": [6],
+          "prompt": "White to play: capture the Black stone in the ko!",
+          "hint": "Play at B4 to capture C4."
+        }
+      ]
+    },
+    {
+      "id": "s5-corners",
+      "stage": 5,
+      "title": "Corners first",
+      "summary": "Corners are easiest to surround with territory (only two sides to wall off).",
+      "demo": {
+        "size": 9,
+        "stones": [],
+        "moves": [
+          { "idx": 20, "color": 1 },
+          { "idx": 60, "color": 2 },
+          { "idx": 24, "color": 1 },
+          { "idx": 56, "color": 2 }
+        ],
+        "caption": "Watch: both players claim the 3rd-line / star-point corners before the center."
+      },
+      "problems": [
+        {
+          "size": 9,
+          "turn": 1,
+          "stones": [[20, 1], [60, 2]],
+          "goal": "play",
+          "targetPoint": 24,
+          "acceptedMoves": [24, 56],
+          "prompt": "Claim an open corner!",
+          "hint": "Play near one of the two open star points."
+        }
+      ]
+    },
+    {
+      "id": "s5-extending",
+      "stage": 5,
+      "title": "Extending and building a base",
+      "summary": "After a corner or side stone, extend along the 3rd line to make space for two eyes.",
+      "demo": {
+        "size": 9,
+        "stones": [[20, 1]],
+        "moves": [{ "idx": 22, "color": 1 }],
+        "caption": "Watch: a two-space extension gives your stone room to live."
+      },
+      "problems": [
+        {
+          "size": 9,
+          "turn": 1,
+          "stones": [[20, 1], [60, 2]],
+          "goal": "play",
+          "targetPoint": 22,
+          "acceptedMoves": [22, 23, 38, 47],
+          "prompt": "Extend from your C7 stone along the side!",
+          "hint": "Play 2 or 3 spaces along the 3rd line."
+        }
+      ]
+    },
+    {
+      "id": "s6-opening13",
+      "stage": 6,
+      "title": "Opening on 13x13",
+      "summary": "On 13x13, star points are on the 4th line. Balance corners, sides, and connecting fights.",
+      "demo": {
+        "size": 13,
+        "stones": [],
+        "moves": [
+          { "idx": 42, "color": 1 },
+          { "idx": 126, "color": 2 },
+          { "idx": 48, "color": 1 },
+          { "idx": 120, "color": 2 }
+        ],
+        "caption": "Watch: claim star points on the 4th line, then build toward the sides."
+      },
+      "problems": [
+        {
+          "size": 13,
+          "turn": 1,
+          "stones": [[42, 1], [126, 2]],
+          "goal": "play",
+          "targetPoint": 48,
+          "acceptedMoves": [48, 120],
+          "prompt": "Play on one of the open 13x13 corner star points!",
+          "hint": "Look for the empty corner star-point dots."
         }
       ]
     }

@@ -11,7 +11,7 @@ import {
 } from './storage.js';
 import {
   BLACK,
-  DRAW,
+  EMPTY,
   GOAL_CAPTURE_TARGET,
   GOAL_SAVE_TARGET,
   PASS_POINT,
@@ -70,10 +70,24 @@ interface LessonsPayload {
   lessons: Lesson[];
 }
 
-type Tab = 'learn' | 'computer' | 'shared';
+interface BankProblem extends LessonProblem {
+  id: string;
+  category: 'capture' | 'escape' | 'tactics';
+  level: number;
+  source: string;
+}
+
+interface ProblemsPayload {
+  problems: BankProblem[];
+}
+
+type Tab = 'learn' | 'problems' | 'computer' | 'shared';
+
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 let engine: RulesEngine;
 let lessonsData: LessonsPayload;
+let problemsData: ProblemsPayload;
 let state: UserState = loadState();
 let activeTab: Tab = 'learn';
 
@@ -84,11 +98,17 @@ let problemIndex = 0;
 let demoTimer: number | null = null;
 let lessonFeedback = '';
 
+// Problems tab state
+let problemFilter: 'all' | 'capture' | 'escape' | 'tactics' | 'due' = 'all';
+let activeBankProblem: BankProblem | null = null;
+let bankFeedback = '';
+
 // Play state (computer & shared)
 let currentGame: SavedGame | null = null;
 let ghostPoint = -1;
 let playNote = '';
 let territoryOverlay: Uint8Array | null = null;
+let deadOverlay: Uint8Array | null = null;
 let scoreSummary = '';
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K] {
@@ -115,45 +135,167 @@ function statusMessage(code: number): string {
   return 'That spot is not legal.';
 }
 
+function computeEndOfGameScore(game: SavedGame): void {
+  if (game.captureTarget > 0) {
+    const winnerName = engine.winner === BLACK ? 'Black' : 'White';
+    scoreSummary = `${winnerName} wins Capture Go!`;
+    territoryOverlay = null;
+    deadOverlay = null;
+    return;
+  }
+
+  if (!deadOverlay) {
+    const grid = engine.getGrid();
+    const { ownership } = engine.estimateOwnership(48);
+    const dead = new Uint8Array(grid.length);
+    for (let i = 0; i < grid.length; i++) {
+      if (grid[i] === BLACK && ownership[i] <= -60) dead[i] = 1;
+      else if (grid[i] === WHITE && ownership[i] >= 60) dead[i] = 1;
+    }
+    deadOverlay = dead;
+  }
+
+  const sc = engine.scoreWithDead(deadOverlay);
+  territoryOverlay = sc.territory;
+  const winnerName = sc.black > sc.white ? 'Black' : sc.white > sc.black ? 'White' : 'Draw';
+  scoreSummary = `Area score — Black ${sc.black}, White ${sc.white} (${winnerName} wins). Tap stones to toggle dead/alive.`;
+}
+
 function replaySavedGame(game: SavedGame): void {
   engine.newGame(game.size, game.komiX2, game.captureTarget);
+  if (game.handicap >= 2) {
+    engine.setupHandicap(game.handicap);
+  }
   for (const mv of game.moves) {
     engine.play(mv);
   }
   territoryOverlay = null;
+  deadOverlay = null;
   scoreSummary = '';
-  if (engine.winner !== 0 && game.captureTarget === 0) {
-    const sc = engine.areaScore();
-    territoryOverlay = sc.territory;
-    const winnerName = engine.winner === BLACK ? 'Black' : engine.winner === WHITE ? 'White' : 'Draw';
-    scoreSummary = `Final area score — Black ${sc.black}, White ${sc.white} (${winnerName} wins)`;
-  } else if (engine.winner !== 0) {
-    const winnerName = engine.winner === BLACK ? 'Black' : 'White';
-    scoreSummary = `${winnerName} wins Capture Go!`;
+  if (engine.winner !== 0) {
+    computeEndOfGameScore(game);
   }
 }
 
-function startNewGame(mode: 'computer' | 'shared', size: number, komiX2: number, captureTarget: number, level: number): void {
+function startNewGame(
+  mode: 'computer' | 'shared',
+  size: number,
+  komiX2: number,
+  captureTarget: number,
+  level: number,
+  handicap = 0
+): void {
+  const actualKomi = handicap >= 2 ? 1 : komiX2;
   currentGame = {
     mode,
     size,
-    komiX2,
+    komiX2: actualKomi,
     captureTarget,
     level,
+    handicap,
+    assisted: state.eli5Mode,
     playerColor: BLACK,
     moves: [],
     updatedAt: Date.now(),
   };
   ghostPoint = -1;
-  playNote = mode === 'computer' ? 'Your turn (Black).' : 'Black to play.';
   replaySavedGame(currentGame);
+  playNote =
+    handicap >= 2
+      ? `${handicap}-stone handicap game. Computer (White) to play.`
+      : mode === 'computer'
+      ? 'Your turn (Black).'
+      : 'Black to play.';
   state.savedGame = currentGame;
   saveState(state);
   render();
+
+  if (mode === 'computer' && engine.turn === WHITE) {
+    triggerComputerMove();
+  }
+}
+
+function recordRankedOutcome(playerWon: boolean): string {
+  if (!currentGame || currentGame.assisted || currentGame.captureTarget > 0) {
+    return '';
+  }
+  if (playerWon) {
+    state.winStreak += 1;
+    state.lossStreak = 0;
+    if (state.winStreak >= 2 && state.gtgLevel < 10) {
+      state.gtgLevel += 1;
+      state.winStreak = 0;
+      saveState(state);
+      return ` Two wins in a row! Level up to GTG Level ${state.gtgLevel}.`;
+    }
+  } else {
+    state.lossStreak += 1;
+    state.winStreak = 0;
+    if (state.lossStreak >= 3 && state.gtgLevel > 1) {
+      state.gtgLevel -= 1;
+      state.lossStreak = 0;
+      saveState(state);
+      return ` Suggested adjustment: GTG Level ${state.gtgLevel}.`;
+    }
+  }
+  saveState(state);
+  return '';
+}
+
+function triggerComputerMove(): void {
+  window.setTimeout(() => {
+    if (!currentGame || engine.winner !== 0 || engine.turn !== WHITE) return;
+    const aiMove =
+      currentGame.captureTarget > 0
+        ? engine.chooseMove(currentGame.level)
+        : engine.chooseMoveGTG(currentGame.level);
+    const aiPrevCaps = engine.captures(WHITE);
+    engine.play(aiMove);
+    currentGame.moves.push(aiMove);
+    currentGame.updatedAt = Date.now();
+    replaySavedGame(currentGame);
+    state.savedGame = currentGame;
+    saveState(state);
+
+    if (aiMove === PASS_POINT) {
+      playPassChime(state.soundOn);
+    } else if (engine.captures(WHITE) > aiPrevCaps) {
+      playCaptureClick(state.soundOn);
+    } else {
+      playStoneClick(state.soundOn);
+    }
+
+    if (engine.winner !== 0) {
+      const rankMsg = recordRankedOutcome(engine.winner === BLACK);
+      playNote = scoreSummary + rankMsg;
+      playPassChime(state.soundOn);
+    } else {
+      playNote =
+        aiMove === PASS_POINT
+          ? 'Computer passed. Your turn!'
+          : `Computer played ${coordLabel(currentGame.size, aiMove)}. Your turn!`;
+    }
+    render();
+  }, 220);
 }
 
 function handleBoardSelectInGame(idx: number): void {
-  if (!currentGame || engine.winner !== 0) return;
+  if (!currentGame) return;
+
+  // Allow toggling dead stones after double-pass in real games
+  if (engine.winner !== 0) {
+    if (currentGame.captureTarget === 0 && deadOverlay) {
+      const grid = engine.getGrid();
+      if (idx >= 0 && idx < grid.length && grid[idx] !== EMPTY) {
+        deadOverlay[idx] = deadOverlay[idx] ? 0 : 1;
+        computeEndOfGameScore(currentGame);
+        playNote = scoreSummary;
+        render();
+      }
+    }
+    return;
+  }
+
   if (currentGame.mode === 'computer' && engine.turn !== currentGame.playerColor) return;
 
   // Two-tap ghost stone on 13x13 and 19x19
@@ -167,7 +309,12 @@ function handleBoardSelectInGame(idx: number): void {
   }
   ghostPoint = -1;
 
-  const prevCaps = engine.captures(engine.turn);
+  if (state.eli5Mode) {
+    currentGame.assisted = true;
+  }
+
+  const activeColor = engine.turn;
+  const prevCaps = engine.captures(activeColor);
   const warnings = idx === PASS_POINT ? 0 : engine.detectWarnings(idx);
   const res = engine.play(idx);
   if (res !== PLAY_OK) {
@@ -176,7 +323,7 @@ function handleBoardSelectInGame(idx: number): void {
     return;
   }
 
-  const capturedNow = engine.captures(currentGame.mode === 'computer' ? BLACK : (engine.turn === BLACK ? WHITE : BLACK)) > prevCaps;
+  const capturedNow = engine.captures(activeColor) > prevCaps;
   if (idx === PASS_POINT) {
     playPassChime(state.soundOn);
   } else if (capturedNow) {
@@ -197,7 +344,8 @@ function handleBoardSelectInGame(idx: number): void {
       state.captureWinsStage1 += 1;
       saveState(state);
     }
-    playNote = scoreSummary;
+    const rankMsg = currentGame.mode === 'computer' ? recordRankedOutcome(engine.winner === BLACK) : '';
+    playNote = scoreSummary + rankMsg;
     playPassChime(state.soundOn);
     render();
     return;
@@ -206,33 +354,7 @@ function handleBoardSelectInGame(idx: number): void {
   if (currentGame.mode === 'computer' && engine.turn === WHITE) {
     playNote = warnText || 'Computer is thinking...';
     render();
-    window.setTimeout(() => {
-      if (!currentGame || engine.winner !== 0 || engine.turn !== WHITE) return;
-      const aiMove = engine.chooseMove(currentGame.level);
-      const aiPrevCaps = engine.captures(WHITE);
-      engine.play(aiMove);
-      currentGame.moves.push(aiMove);
-      currentGame.updatedAt = Date.now();
-      replaySavedGame(currentGame);
-      state.savedGame = currentGame;
-      saveState(state);
-
-      if (aiMove === PASS_POINT) {
-        playPassChime(state.soundOn);
-      } else if (engine.captures(WHITE) > aiPrevCaps) {
-        playCaptureClick(state.soundOn);
-      } else {
-        playStoneClick(state.soundOn);
-      }
-
-      if (engine.winner !== 0) {
-        playNote = scoreSummary;
-        playPassChime(state.soundOn);
-      } else {
-        playNote = aiMove === PASS_POINT ? 'Computer passed. Your turn!' : `Computer played ${coordLabel(currentGame.size, aiMove)}. Your turn!`;
-      }
-      render();
-    }, 240);
+    triggerComputerMove();
     return;
   }
 
@@ -243,10 +365,10 @@ function handleBoardSelectInGame(idx: number): void {
 
 function undoLastMove(): void {
   if (!currentGame || currentGame.moves.length === 0) return;
+  currentGame.assisted = true;
   if (currentGame.mode === 'computer') {
-    // Undo back to player's turn
     currentGame.moves.pop();
-    if (currentGame.moves.length > 0 && currentGame.moves.length % 2 === 1) {
+    if (currentGame.moves.length > 0 && engine.turn === WHITE) {
       currentGame.moves.pop();
     }
   } else {
@@ -256,7 +378,7 @@ function undoLastMove(): void {
   replaySavedGame(currentGame);
   state.savedGame = currentGame;
   saveState(state);
-  playNote = 'Move undone.';
+  playNote = 'Move undone (unranked).';
   render();
 }
 
@@ -364,6 +486,79 @@ function handleProblemMove(idx: number): void {
   }
 }
 
+// --- Problems tab (Daily + Spaced Repetition) ---
+
+function getDailyProblem(): BankProblem {
+  const today = new Date().toISOString().slice(0, 10);
+  let hash = 0;
+  for (let i = 0; i < today.length; i++) {
+    hash = (hash * 31 + today.charCodeAt(i)) >>> 0;
+  }
+  const matched = problemsData.problems.filter((p) => Math.abs(p.level - state.gtgLevel) <= 2);
+  const pool = matched.length > 0 ? matched : problemsData.problems;
+  return pool[hash % pool.length];
+}
+
+function getDueProblemIds(now = Date.now()): string[] {
+  return Object.entries(state.problemReviews)
+    .filter(([, rev]) => rev.dueAt <= now)
+    .map(([id]) => id);
+}
+
+function openBankProblem(prob: BankProblem): void {
+  activeBankProblem = prob;
+  engine.newGame(prob.size, 15, 0);
+  for (const [idx, color] of prob.stones) {
+    engine.setStone(idx, color);
+  }
+  engine.setTurn(prob.turn);
+  engine.resetHistory();
+  bankFeedback = prob.prompt;
+  speakText(prob.prompt, state.speechOn);
+  render();
+}
+
+function handleBankProblemMove(idx: number): void {
+  if (!activeBankProblem) return;
+  const prob = activeBankProblem;
+  if (engine.isLegal(idx) !== PLAY_OK) {
+    bankFeedback = statusMessage(engine.isLegal(idx));
+    render();
+    return;
+  }
+
+  let solved = prob.acceptedMoves.includes(idx);
+  if (!solved && prob.goal === 'capture_target') {
+    solved = engine.solve(idx, GOAL_CAPTURE_TARGET, prob.targetPoint, 3, 2);
+  } else if (!solved && prob.goal === 'save_target') {
+    solved = engine.solve(idx, GOAL_SAVE_TARGET, prob.targetPoint, 3, 2);
+  }
+
+  if (solved) {
+    engine.play(idx);
+    playPassChime(state.soundOn);
+    if (!state.solvedProblems.includes(prob.id)) {
+      state.solvedProblems.push(prob.id);
+    }
+    delete state.problemReviews[prob.id];
+    saveState(state);
+    bankFeedback = 'Solved! Pick another problem or tap Next.';
+    speakText('Solved!', state.speechOn);
+    render();
+  } else {
+    const prev = state.problemReviews[prob.id]?.intervalDays ?? 0;
+    const nextDays = prev === 0 ? 1 : prev === 1 ? 3 : 7;
+    state.problemReviews[prob.id] = {
+      intervalDays: nextDays,
+      dueAt: Date.now() + nextDays * DAY_MS,
+    };
+    saveState(state);
+    bankFeedback = `Not quite (scheduled to review in ${nextDays} day${nextDays === 1 ? '' : 's'}) — ${prob.hint}`;
+    speakText(prob.hint, state.speechOn);
+    render();
+  }
+}
+
 // --- Rendering ---
 
 function render(): void {
@@ -372,26 +567,36 @@ function render(): void {
 
   const shell = el('div', 'shell');
 
-  // Header
   const header = el('header', 'topbar');
   const brand = el('div', 'brand');
   brand.append(el('span', 'brand-title', 'Good to Go'), el('span', 'brand-sub', 'go.prignano.ai'));
 
   const nav = el('nav', 'tabs');
-  (['learn', 'computer', 'shared'] as Tab[]).forEach((t) => {
-    const label = t === 'learn' ? 'Learn' : t === 'computer' ? 'Play Computer' : 'Two on One Device';
+  (['learn', 'problems', 'computer', 'shared'] as Tab[]).forEach((t) => {
+    const label =
+      t === 'learn'
+        ? 'Learn'
+        : t === 'problems'
+        ? 'Problems'
+        : t === 'computer'
+        ? 'Play Computer'
+        : 'Two on One Device';
     const btn = el('button', `tab ${activeTab === t ? 'active' : ''}`, label);
     btn.addEventListener('click', () => {
       clearDemoTimer();
       stopSpeech();
       activeTab = t;
+      if (t === 'problems' && !activeBankProblem) {
+        openBankProblem(getDailyProblem());
+        return;
+      }
       if (t === 'computer' && (!currentGame || currentGame.mode !== 'computer')) {
         if (state.savedGame && state.savedGame.mode === 'computer') {
           currentGame = state.savedGame;
           replaySavedGame(currentGame);
           playNote = 'Resumed your saved game.';
         } else {
-          startNewGame('computer', 5, 0, 1, 0);
+          startNewGame('computer', 7, 15, 0, state.gtgLevel, 0);
           return;
         }
       }
@@ -401,7 +606,7 @@ function render(): void {
           replaySavedGame(currentGame);
           playNote = 'Resumed shared board.';
         } else {
-          startNewGame('shared', 7, 15, 0, 0);
+          startNewGame('shared', 7, 15, 0, 1, 0);
           return;
         }
       }
@@ -452,6 +657,8 @@ function render(): void {
   const main = el('main', 'main');
   if (activeTab === 'learn') {
     main.appendChild(renderLearn());
+  } else if (activeTab === 'problems') {
+    main.appendChild(renderProblems());
   } else if (activeTab === 'computer') {
     main.appendChild(renderPlay('computer'));
   } else {
@@ -459,7 +666,6 @@ function render(): void {
   }
   shell.appendChild(main);
 
-  // Footer with device-local data controls
   const footer = el('footer', 'footer');
   footer.appendChild(el('span', 'muted', 'Progress stays on this device. No analytics or accounts.'));
   const dataBtns = el('div', 'data-btns');
@@ -496,10 +702,11 @@ function render(): void {
 
   const delBtn = el('button', 'link-btn danger', 'Delete my data');
   delBtn.addEventListener('click', () => {
-    if (confirm('Delete all saved lessons and games on this device?')) {
+    if (confirm('Delete all saved lessons, problems, and games on this device?')) {
       state = clearAllState();
       currentGame = null;
       currentLesson = null;
+      activeBankProblem = null;
       learnPhase = 'list';
       render();
     }
@@ -519,7 +726,11 @@ function renderLearn(): HTMLElement {
     const intro = el('div', 'card');
     intro.append(
       el('h1', '', 'Learn Go, step by step'),
-      el('p', 'muted', `Completed ${state.completedLessons.length} of ${lessonsData.lessons.length} lessons · Stage 1 Capture Go wins: ${state.captureWinsStage1}/3`)
+      el(
+        'p',
+        'muted',
+        `Completed ${state.completedLessons.length} of ${lessonsData.lessons.length} lessons · GTG Level ${state.gtgLevel} · Stage 1 Capture Go wins: ${state.captureWinsStage1}/3`
+      )
     );
     wrap.appendChild(intro);
 
@@ -545,9 +756,10 @@ function renderLearn(): HTMLElement {
 
   const panel = el('div', 'play-layout');
   const boardBox = el('div', 'board-box');
-  const pulse = learnPhase === 'problem' && currentLesson.problems[problemIndex].targetPoint >= 0
-    ? [currentLesson.problems[problemIndex].targetPoint]
-    : [];
+  const pulse =
+    learnPhase === 'problem' && currentLesson.problems[problemIndex].targetPoint >= 0
+      ? [currentLesson.problems[problemIndex].targetPoint]
+      : [];
 
   renderBoard(boardBox, {
     size: engine.size,
@@ -623,6 +835,78 @@ function renderLearn(): HTMLElement {
   return wrap;
 }
 
+function renderProblems(): HTMLElement {
+  const layout = el('div', 'play-layout');
+  const boardBox = el('div', 'board-box');
+  const prob = activeBankProblem ?? getDailyProblem();
+
+  renderBoard(boardBox, {
+    size: engine.size,
+    grid: engine.getGrid(),
+    liberties: engine.getLiberties(),
+    lastMove: engine.lastMove,
+    ghostPoint: -1,
+    pulsePoints: prob.targetPoint >= 0 ? [prob.targetPoint] : [],
+    showHelpers: state.eli5Mode,
+    highContrast: state.highContrast,
+    onSelectPoint: handleBankProblemMove,
+  });
+
+  const side = el('div', 'side-panel card');
+  const dueIds = getDueProblemIds();
+  const daily = getDailyProblem();
+
+  side.append(
+    el('h2', '', `Problem ${prob.id.toUpperCase()} (${prob.category}, Level ${prob.level})`),
+    el('div', 'muted', `Solved ${state.solvedProblems.length}/${problemsData.problems.length} · Due for review: ${dueIds.length}`),
+    el('div', 'feedback-box', bankFeedback || prob.prompt)
+  );
+
+  const actions = el('div', 'actions');
+  const dailyBtn = el('button', 'btn secondary small', `Daily (${daily.id})`);
+  dailyBtn.addEventListener('click', () => openBankProblem(daily));
+
+  const nextBtn = el('button', 'btn primary', 'Next problem →');
+  nextBtn.addEventListener('click', () => {
+    const pool =
+      problemFilter === 'due'
+        ? problemsData.problems.filter((p) => dueIds.includes(p.id))
+        : problemFilter === 'all'
+        ? problemsData.problems
+        : problemsData.problems.filter((p) => p.category === problemFilter);
+    const list = pool.length > 0 ? pool : problemsData.problems;
+    const curIdx = list.findIndex((p) => p.id === prob.id);
+    openBankProblem(list[(curIdx + 1) % list.length]);
+  });
+
+  const hintBtn = el('button', 'btn secondary', 'Hint');
+  hintBtn.addEventListener('click', () => {
+    bankFeedback = prob.hint;
+    speakText(prob.hint, state.speechOn);
+    render();
+  });
+
+  const resetBtn = el('button', 'btn secondary', 'Reset');
+  resetBtn.addEventListener('click', () => openBankProblem(prob));
+
+  actions.append(dailyBtn, hintBtn, resetBtn, nextBtn);
+  side.appendChild(actions);
+
+  const filters = el('div', 'presets');
+  (['all', 'capture', 'escape', 'tactics', 'due'] as const).forEach((f) => {
+    const b = el('button', `btn secondary small ${problemFilter === f ? 'primary' : ''}`, f === 'due' ? `Due (${dueIds.length})` : f);
+    b.addEventListener('click', () => {
+      problemFilter = f;
+      render();
+    });
+    filters.appendChild(b);
+  });
+  side.appendChild(filters);
+
+  layout.append(boardBox, side);
+  return layout;
+}
+
 function renderPlay(mode: 'computer' | 'shared'): HTMLElement {
   const layout = el('div', 'play-layout');
   const boardBox = el('div', 'board-box');
@@ -633,52 +917,59 @@ function renderPlay(mode: 'computer' | 'shared'): HTMLElement {
       grid: engine.getGrid(),
       liberties: engine.getLiberties(),
       territory: territoryOverlay,
+      deadPoints: deadOverlay,
       lastMove: engine.lastMove,
       ghostPoint,
       showHelpers: state.eli5Mode,
       highContrast: state.highContrast,
-      disabled: engine.winner !== 0,
+      disabled: false,
       onSelectPoint: handleBoardSelectInGame,
     });
   }
 
   const side = el('div', 'side-panel card');
-  side.appendChild(el('h2', '', mode === 'computer' ? 'Play the computer' : 'Two on one device'));
+  side.appendChild(el('h2', '', mode === 'computer' ? `Play Computer (GTG Level ${state.gtgLevel})` : 'Two on one device'));
 
-  // Presets
   const presets = el('div', 'presets');
   if (mode === 'computer') {
-    const configs: [string, number, number, number, number][] = [
-      ['5x5 Capture (1)', 5, 0, 1, 0],
-      ['7x7 Capture (5)', 7, 0, 5, 1],
-      ['7x7 Real Go', 7, 15, 0, 3],
-      ['9x9 Real Go', 9, 15, 0, 3],
+    const configs: [string, number, number, number, number, number][] = [
+      ['5x5 Capture (1)', 5, 0, 1, 0, 0],
+      ['7x7 Capture (5)', 7, 0, 5, 1, 0],
+      [`7x7 Level ${state.gtgLevel}`, 7, 15, 0, state.gtgLevel, 0],
+      [`9x9 Level ${state.gtgLevel}`, 9, 15, 0, state.gtgLevel, 0],
+      ['9x9 +2 Handicap', 9, 1, 0, state.gtgLevel, 2],
+      ['13x13 Real Go', 13, 15, 0, state.gtgLevel, 0],
     ];
-    for (const [label, sz, komi, cap, lvl] of configs) {
+    for (const [label, sz, komi, cap, lvl, hc] of configs) {
       const b = el('button', 'btn secondary small', label);
-      b.addEventListener('click', () => startNewGame('computer', sz, komi, cap, lvl));
+      b.addEventListener('click', () => startNewGame('computer', sz, komi, cap, lvl, hc));
       presets.appendChild(b);
     }
   } else {
     for (const sz of [7, 9, 13, 19]) {
       const b = el('button', 'btn secondary small', `${sz}x${sz}`);
-      b.addEventListener('click', () => startNewGame('shared', sz, 15, 0, 0));
+      b.addEventListener('click', () => startNewGame('shared', sz, 15, 0, 1, 0));
       presets.appendChild(b);
     }
   }
   side.appendChild(presets);
 
   if (currentGame) {
-    const capTarget = currentGame.captureTarget > 0 ? ` (first to ${currentGame.captureTarget})` : ' (Area scoring, 7.5 komi)';
+    const capTarget =
+      currentGame.captureTarget > 0
+        ? ` (first to ${currentGame.captureTarget})`
+        : currentGame.handicap >= 2
+        ? ` (${currentGame.handicap}-stone handicap, 0.5 komi)`
+        : ' (Area scoring, 7.5 komi)';
     side.append(
-      el('div', 'muted', `${currentGame.size}x${currentGame.size}${capTarget}`),
+      el('div', 'muted', `${currentGame.size}x${currentGame.size}${capTarget}${currentGame.assisted ? ' · Unranked' : ''}`),
       el('div', 'score-row', `Captures — Black: ${engine.captures(BLACK)} · White: ${engine.captures(WHITE)}`),
       el('div', 'feedback-box', playNote || scoreSummary || 'Make a move.')
     );
 
     const actions = el('div', 'actions');
     const undoBtn = el('button', 'btn secondary', 'Undo');
-    undoBtn.disabled = currentGame.moves.length === 0;
+    undoBtn.disabled = currentGame.moves.length === 0 || engine.winner !== 0;
     undoBtn.addEventListener('click', undoLastMove);
 
     const passBtn = el('button', 'btn secondary', 'Pass');
@@ -687,7 +978,14 @@ function renderPlay(mode: 'computer' | 'shared'): HTMLElement {
 
     const newBtn = el('button', 'btn primary', 'New game');
     newBtn.addEventListener('click', () =>
-      startNewGame(mode, currentGame!.size, currentGame!.komiX2, currentGame!.captureTarget, currentGame!.level)
+      startNewGame(
+        mode,
+        currentGame!.size,
+        currentGame!.komiX2,
+        currentGame!.captureTarget,
+        mode === 'computer' ? state.gtgLevel : currentGame!.level,
+        currentGame!.handicap
+      )
     );
 
     actions.append(undoBtn, passBtn, newBtn);
@@ -699,12 +997,14 @@ function renderPlay(mode: 'computer' | 'shared'): HTMLElement {
 }
 
 async function boot(): Promise<void> {
-  const [eng, res] = await Promise.all([
+  const [eng, lRes, pRes] = await Promise.all([
     RulesEngine.fromUrl('./rules.wasm'),
     fetch('./data/lessons.json'),
+    fetch('./data/problems.json'),
   ]);
   engine = eng;
-  lessonsData = (await res.json()) as LessonsPayload;
+  lessonsData = (await lRes.json()) as LessonsPayload;
+  problemsData = (await pRes.json()) as ProblemsPayload;
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
