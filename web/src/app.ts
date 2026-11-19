@@ -712,7 +712,7 @@ function render(): void {
   const footer = el('footer', 'footer');
   const credit = el('span', 'muted');
   const studioLink = document.createElement('a');
-  studioLink.href = 'https://prignano.ai';
+  studioLink.href = 'https://quietarcades.com';
   studioLink.target = '_blank';
   studioLink.rel = 'noopener noreferrer';
   studioLink.className = 'link-btn';
