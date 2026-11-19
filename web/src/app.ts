@@ -710,7 +710,15 @@ function render(): void {
   shell.appendChild(main);
 
   const footer = el('footer', 'footer');
-  footer.appendChild(el('span', 'muted', 'Progress stays on this device. No analytics or accounts.'));
+  const credit = el('span', 'muted');
+  const studioLink = document.createElement('a');
+  studioLink.href = 'https://prignano.ai';
+  studioLink.target = '_blank';
+  studioLink.rel = 'noopener noreferrer';
+  studioLink.className = 'link-btn';
+  studioLink.textContent = 'Quiet Arcades';
+  credit.append('A ', studioLink, ' game · Progress stays on this device. No analytics or accounts.');
+  footer.appendChild(credit);
   const dataBtns = el('div', 'data-btns');
 
   const exportBtn = el('button', 'link-btn', 'Export');
