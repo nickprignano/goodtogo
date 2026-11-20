@@ -74,7 +74,7 @@ body {
 }
 
 .learn-wrap { display: flex; flex-direction: column; gap: 16px; }
-.intro-copy { margin: 8px 0 10px; max-width: 72ch; }
+.intro-copy { margin: 8px 0 10px; }
 .basics-list {
   margin: 0 0 14px;
   padding-left: 20px;
