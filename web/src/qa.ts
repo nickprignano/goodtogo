@@ -94,7 +94,7 @@ export const QA_ENTRIES: QAEntry[] = [
   {
     id: 'komi',
     title: 'What is komi (7.5 points)?',
-    keywords: ['komi', '7.5', '0.5', 'half', 'white', 'first move', 'advantage'],
+    keywords: ['komi', '7.5', '7.5 points', '0.5', 'half', 'white', 'first move', 'advantage'],
     answer:
       'Because Black gets the advantage of playing first, White receives extra points called komi: 7.5 points in even games (or 0.5 in handicap games). The .5 prevents ties.',
     eli5Answer:
