@@ -791,8 +791,38 @@ function renderLearn(): HTMLElement {
 
   if (learnPhase === 'list' || !currentLesson) {
     const intro = el('div', 'card');
+    const nextLesson =
+      lessonsData.lessons.find((l) => !state.completedLessons.includes(l.id)) ?? lessonsData.lessons[0];
+
+    const historyP = el(
+      'p',
+      'intro-copy',
+      'Go (Weiqi in China, Baduk in Korea, Igo in Japan) is the world’s oldest continuously played board game—born in ancient China more than 2,500 years ago. On a simple grid of crossing lines, two players take turns placing black and white stones to surround space and outlast each other.'
+    );
+
+    const basics = el('ul', 'basics-list');
+    [
+      'Play on the line crossings: Black goes first, White goes second, and stones never move once placed.',
+      'Breathe through liberties: every stone needs open neighboring dots along the lines. Cover an enemy group’s last liberty to capture it.',
+      'Start small, grow naturally: begin on a 5×5 board where the first capture wins, then step up to full territory games on 7×7, 9×9, 13×13, and 19×19.',
+    ].forEach((line) => basics.appendChild(el('li', '', line)));
+
+    const startRow = el('div', 'actions');
+    const startBtn = el(
+      'button',
+      'btn primary',
+      state.completedLessons.length === 0
+        ? `Start Lesson 1: ${nextLesson.title} →`
+        : `Continue: ${nextLesson.title} →`
+    );
+    startBtn.addEventListener('click', () => startLesson(nextLesson));
+    startRow.appendChild(startBtn);
+
     intro.append(
       el('h1', '', 'Learn Go, step by step'),
+      historyP,
+      basics,
+      startRow,
       el(
         'p',
         'muted',

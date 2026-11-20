@@ -74,6 +74,16 @@ body {
 }
 
 .learn-wrap { display: flex; flex-direction: column; gap: 16px; }
+.intro-copy { margin: 8px 0 10px; max-width: 72ch; }
+.basics-list {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text);
+  font-size: 0.94rem;
+}
 .stage-card h2, .card h1, .card h2 {
   font-family: var(--font-serif);
   margin-top: 0;
