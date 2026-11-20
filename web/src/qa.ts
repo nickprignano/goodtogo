@@ -123,7 +123,7 @@ export const QA_ENTRIES: QAEntry[] = [
   {
     id: 'coordinates',
     title: 'Why is there no letter "I" on Go boards?',
-    keywords: ['coordinate', 'coordinates', 'letter', 'letters', 'i', 'skip', 'd4', 'board'],
+    keywords: ['coordinate', 'coordinates', 'letter', 'letters', 'letter i', 'skip', 'd4', 'board'],
     answer:
       'Standard Go board coordinates label columns A through T but skip the letter "I" so it is never confused with the number "1".',
     eli5Answer:
@@ -179,12 +179,12 @@ export function answerQuestion(query: string, eli5: boolean): {
   for (const entry of QA_ENTRIES) {
     let score = 0;
     for (const kw of entry.keywords) {
-      if (q.includes(kw)) {
-        score += kw.includes(' ') ? 5 : 3;
+      if (kw.includes(' ') && q.includes(kw)) {
+        score += 5;
       } else {
         for (const t of tokens) {
           if (kw === t) score += 3;
-          else if (kw.startsWith(t) || t.startsWith(kw)) score += 1;
+          else if (kw.length >= 3 && t.length >= 3 && (kw.startsWith(t) || t.startsWith(kw))) score += 1;
         }
       }
     }
@@ -196,7 +196,7 @@ export function answerQuestion(query: string, eli5: boolean): {
     }
   }
 
-  if (!best || bestScore === 0) {
+  if (!best || bestScore < 3) {
     return {
       title: 'I’m not sure about that one yet',
       answer:
