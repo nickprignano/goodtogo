@@ -1,4 +1,5 @@
 import { renderBoard } from './board.js';
+import { QUICK_QUESTIONS, answerQuestion } from './qa.js';
 import { playCaptureClick, playPassChime, playStoneClick, speakText, stopSpeech } from './sound.js';
 import {
   SavedGame,
@@ -82,7 +83,7 @@ interface ProblemsPayload {
   problems: BankProblem[];
 }
 
-type Tab = 'learn' | 'problems' | 'computer' | 'shared' | 'friend';
+type Tab = 'learn' | 'problems' | 'computer' | 'shared' | 'friend' | 'qa';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -143,6 +144,15 @@ let roomStatus = '';
 let roomSizeOpt = 9;
 let roomHandicapOpt = 0;
 let roomClocksOpt = false;
+
+interface QAMessage {
+  q: string;
+  title: string;
+  answer: string;
+  lessonId?: string;
+}
+let qaHistory: QAMessage[] = [];
+let qaInputDraft = '';
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -611,7 +621,7 @@ function render(): void {
   brand.append(mark, brandText);
 
   const nav = el('nav', 'tabs');
-  (['learn', 'problems', 'computer', 'shared', 'friend'] as Tab[]).forEach((t) => {
+  (['learn', 'problems', 'computer', 'shared', 'friend', 'qa'] as Tab[]).forEach((t) => {
     const label =
       t === 'learn'
         ? 'Learn'
@@ -621,7 +631,9 @@ function render(): void {
         ? 'Play Computer'
         : t === 'shared'
         ? 'Two on One Device'
-        : 'Play a Friend';
+        : t === 'friend'
+        ? 'Play a Friend'
+        : 'Rules Q&A';
     const btn = el('button', `tab ${activeTab === t ? 'active' : ''}`, label);
     btn.addEventListener('click', () => {
       clearDemoTimer();
@@ -704,8 +716,10 @@ function render(): void {
     main.appendChild(renderPlay('computer'));
   } else if (activeTab === 'shared') {
     main.appendChild(renderPlay('shared'));
-  } else {
+  } else if (activeTab === 'friend') {
     main.appendChild(renderFriendRoom());
+  } else {
+    main.appendChild(renderQA());
   }
   shell.appendChild(main);
 
@@ -1418,6 +1432,88 @@ function renderFriendRoom(): HTMLElement {
 
   layout.append(boardBox, side);
   return layout;
+}
+
+function submitQA(questionText: string): void {
+  const q = questionText.trim();
+  if (!q) return;
+  const res = answerQuestion(q, state.eli5Mode);
+  qaHistory.push({ q, title: res.title, answer: res.answer, lessonId: res.lessonId });
+  qaInputDraft = '';
+  speakText(res.answer, state.speechOn);
+  render();
+}
+
+function renderQA(): HTMLElement {
+  const card = el('div', 'card qa-wrap');
+  card.append(
+    el('h1', '', 'Ask about Go'),
+    el(
+      'p',
+      'muted',
+      'Instant on-device rules guide—no AI, no internet needed, and nothing you type leaves your device.'
+    )
+  );
+
+  const chips = el('div', 'presets');
+  for (const q of QUICK_QUESTIONS) {
+    const b = el('button', 'btn secondary small', q);
+    b.addEventListener('click', () => submitQA(q));
+    chips.appendChild(b);
+  }
+  card.appendChild(chips);
+
+  const form = document.createElement('form');
+  form.className = 'qa-form';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'qa-input';
+  input.placeholder = 'Ask a question (e.g. "what is atari?", "why can\'t I play there?", "how do we count?")';
+  input.value = qaInputDraft;
+  input.addEventListener('input', () => {
+    qaInputDraft = input.value;
+  });
+
+  const askBtn = el('button', 'btn primary', 'Ask');
+  askBtn.type = 'submit';
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitQA(input.value);
+  });
+  form.append(input, askBtn);
+  card.appendChild(form);
+
+  if (qaHistory.length > 0) {
+    const thread = el('div', 'qa-thread');
+    for (const item of [...qaHistory].reverse()) {
+      const msg = el('div', 'qa-item');
+      msg.append(
+        el('div', 'qa-q', item.q),
+        el('div', 'qa-title', item.title),
+        el('p', 'qa-a', item.answer)
+      );
+      if (item.lessonId) {
+        const lesson = lessonsData.lessons.find((l) => l.id === item.lessonId);
+        if (lesson) {
+          const jump = el('button', 'link-btn', `Open lesson: ${lesson.title} →`);
+          jump.addEventListener('click', () => {
+            activeTab = 'learn';
+            startLesson(lesson);
+          });
+          msg.appendChild(jump);
+        }
+      }
+      thread.appendChild(msg);
+    }
+    const clearBtn = el('button', 'btn secondary small', 'Clear questions');
+    clearBtn.addEventListener('click', () => {
+      qaHistory = [];
+      render();
+    });
+    card.append(thread, clearBtn);
+  }
+
+  return card;
 }
 
 async function boot(): Promise<void> {

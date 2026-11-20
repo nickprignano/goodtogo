@@ -201,3 +201,26 @@ body {
   padding: 2px 4px;
 }
 .link-btn.danger { color: var(--atari); }
+
+.qa-wrap { display: flex; flex-direction: column; gap: 14px; }
+.qa-form { display: flex; gap: 8px; }
+.qa-input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  color: var(--text);
+  font: inherit;
+}
+.qa-thread { display: flex; flex-direction: column; gap: 10px; }
+.qa-item {
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--liberty);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+.qa-q { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+.qa-title { font-weight: 600; margin-bottom: 4px; }
+.qa-a { margin: 0 0 6px; }
